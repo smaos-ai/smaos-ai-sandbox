@@ -1,0 +1,11 @@
+name: OpenSSF Scorecard
+on: [push]
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ossf/scorecard-action@v2.0.6
+        with:
+          results_format: sarif
+          publish_results: true

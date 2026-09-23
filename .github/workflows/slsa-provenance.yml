@@ -1,0 +1,22 @@
+name: SLSA Level 3 Provenance
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "build" > bin/smaos-release.zip
+      - id: hash
+        run: echo "hashes=$(sha256sum bin/smaos-release.zip | base64 -w0)" >> $GITHUB_OUTPUT
+  provenance:
+    needs: [build]
+    permissions:
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
