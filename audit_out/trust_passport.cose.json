@@ -1,0 +1,54 @@
+{
+  "protected_header": {
+    "alg": "EdDSA",
+    "crit": [
+      "profile"
+    ],
+    "profile": "draft-ietf-scitt-architecture-04",
+    "content_type": "application/json"
+  },
+  "unprotected_header": {
+    "kid": "did:smaos:key:behavioral_001"
+  },
+  "payload_hash": "06c002a17e9d4e5cdd670ba567a6ebb87a346d7a18ac463d21495e78d89b7b52",
+  "signature_base64": "JTZE5J7n2oybZ82ZceULcKQvIZxDFQ+APjkZ5/53w96igimxxWmR11CBRIDyGTHZxYrv9pLM9zpFDsZnpKU/Aw==",
+  "payload": {
+    "identity": {
+      "agent_id": "smaos_node_01",
+      "model_weight_digest": "sha256:d34db33f"
+    },
+    "delegation": {
+      "delegated_by": "USR_9942",
+      "token_ttl": 3600
+    },
+    "authority": {
+      "policy_version": "1.0",
+      "action_scope": [
+        "payments.execute",
+        "audit.write"
+      ],
+      "max_limit_minor": 50000
+    },
+    "hardware_attestation": {
+      "type": "INTEL_TDX",
+      "quote": "0102030405060708",
+      "mrtd": "deadbeef",
+      "rtmr0": "cafebabe"
+    },
+    "prior_state_hash": "aeebad4a796fcc2e15dc4c6061b45ed9b373f26adfc798ca7d2d8cc58182718e",
+    "rejected_paths": [
+      {
+        "path": "execute_mutation_without_token",
+        "reason": "missing_authority",
+        "penalty_score": 100
+      }
+    ],
+    "negative_state_assertions": {
+      "authority_created": false,
+      "privilege_escalation_detected": false,
+      "external_execution_unauthorized": false
+    },
+    "overclaim_rate_detected": 0.0,
+    "scenario_id": "8_scenario_conformance_suite"
+  }
+}

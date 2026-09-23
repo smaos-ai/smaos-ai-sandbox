@@ -20,7 +20,7 @@
   },
   "proof": {
     "type": "BbsBlsSignatureProof2020",
-    "proofValue": "bbs_proof_1e4b5e02881c1d64",
+    "proofValue": "bbs_proof_4969042d37d399c1",
     "revealed_fields": [
       "identity",
       "overclaim_rate_detected",

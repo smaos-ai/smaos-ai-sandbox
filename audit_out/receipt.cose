@@ -1,0 +1,24 @@
+{
+  "protected_header": {
+    "alg": "EdDSA",
+    "crit": [
+      "profile"
+    ],
+    "profile": "draft-ietf-scitt-architecture-04",
+    "content_type": "application/aarm+json"
+  },
+  "unprotected_header": {
+    "kid": "did:smaos:key:aarm_001"
+  },
+  "payload_hash": "794ee34ea209f31c3c23f07a45151b99a3d4e76a3d0bdc507b989e49f0c3b97f",
+  "signature_base64": "pNIvHySSmSp/+osuOO3/9s3c+rGcvN6HxYOxiQST31J8k3l7W9jJKJw78RZ6XSigHznoZ8om5AP8dsMC2PguBg==",
+  "payload": {
+    "identity": {
+      "agent_id": "smaos_node_01"
+    },
+    "negative_state_assertions": {
+      "authority_created": false
+    },
+    "overclaim_rate_detected": 0.0
+  }
+}
