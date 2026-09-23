@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  smaos-evaluator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smaos_sandbox_evaluator
+    network_mode: none  # Enforces 0-byte cloud data egress
+    volumes:
+      - ./audit_out:/app/audit_out
+    environment:
+      - PYTHONUNBUFFERED=1
+      - SMAOS_ENFORCE_FAIL_CLOSED=true
+    command: ["python3", "bin/run_fuzzer.py", "--dataset", "datasets/synthetic_faults"]
