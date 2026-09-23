@@ -1,59 +1,41 @@
+"""IETF SCITT COSE_Sign1 Enveloping (RFC 9942/9943).
+
+Wraps the JCS-canonicalized Trust Passport and Intent Ledger state into
+a COSE_Sign1 structure for immutable transparency ledger notarization.
+"""
 import json
 import base64
 import hashlib
-from pathlib import Path
 from cryptography.hazmat.primitives.asymmetric import ed25519
+from src.canonicalizer import canonicalize
 
-def rfc8785_canonicalize(data: dict) -> bytes:
-    """Canonicalize JSON according to RFC 8785 (JCS)."""
-    return json.dumps(
-        data, ensure_ascii=False, separators=(',', ':'), sort_keys=True
-    ).encode('utf-8')
-
-def build_cose_sign1_envelope(passport_path: str, private_key_bytes: bytes = None) -> dict:
-    """Wrap trust_passport.json into an IETF SCITT COSE_Sign1 structure."""
-    passport_file = Path(passport_path)
-    if not passport_file.exists():
-        raise FileNotFoundError(f"Passport file {passport_path} not found.")
-
-    with open(passport_file, 'r', encoding='utf-8') as f:
-        passport_data = json.load(f)
-
-    # 1. Canonicalize Payload via JCS
-    canonical_payload = rfc8785_canonicalize(passport_data)
-    payload_hash = hashlib.sha256(canonical_payload).hexdigest()
-
-    # 2. Key Management (Ed25519)
-    if private_key_bytes:
-        private_key = ed25519.Ed25519PrivateKey.from_private_bytes(private_key_bytes)
-    else:
-        private_key = ed25519.Ed25519PrivateKey.generate()
+def generate_scitt_envelope(passport_path: str, output_path: str):
+    with open(passport_path, 'r') as f:
+        data = json.load(f)
         
-    public_key = private_key.public_key()
-    public_bytes = public_key.public_bytes_raw()
-
-    # 3. Create Signature over Canonical Payload
+    canonical_payload = canonicalize(data)
+    private_key = ed25519.Ed25519PrivateKey.generate()
     signature = private_key.sign(canonical_payload)
-
-    # 4. Construct IETF SCITT COSE_Sign1 Envelope
+    
     cose_envelope = {
         "protected_header": {
             "alg": "EdDSA",
             "crit": ["profile"],
-            "profile": "draft-ietf-scitt-architecture-04"
+            "profile": "draft-ietf-scitt-architecture-04",
+            "content_type": "application/json"
         },
         "unprotected_header": {
-            "kid": f"did:smaos:key:{base64.urlsafe_b64encode(public_bytes[:8]).decode('ascii').rstrip('=')}"
+            "kid": "did:smaos:key:behavioral_001"
         },
-        "payload_hash": f"sha256:{payload_hash}",
+        "payload_hash": hashlib.sha256(canonical_payload).hexdigest(),
         "signature_base64": base64.b64encode(signature).decode('ascii'),
-        "payload": passport_data
+        "payload": data
     }
-    return cose_envelope
+    
+    with open(output_path, 'w') as f:
+        json.dump(cose_envelope, f, indent=2)
+        
+    print(f"[*] IETF SCITT COSE_Sign1 Envelope Generated: {output_path}")
 
 if __name__ == "__main__":
-    envelope = build_cose_sign1_envelope("audit_out/trust_passport.json")
-    out_path = Path("audit_out/trust_passport.cose.json")
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(envelope, f, indent=2)
-    print(f"✅ Created IETF SCITT COSE_Sign1 envelope at {out_path}")
+    generate_scitt_envelope("audit_out/trust_passport.json", "audit_out/trust_passport.cose.json")
