@@ -8,19 +8,19 @@
   ],
   "credentialSubject": {
     "identity": {
-      "agent_id": "smaos_node_01"
+      "agent_id": null
     },
     "overclaim_rate_detected": 0.0,
-    "negative_state_assertions": {
-      "authority_created": false,
-      "privilege_escalation_detected": false,
-      "external_execution_unauthorized": false
-    },
+    "negative_state_assertions": [
+      "authority_created = false",
+      "delegation_ceiling_breached = false",
+      "unverified_state_promoted = false"
+    ],
     "intent_ledger_status": "VERIFIED_NO_OVERCLAIMS"
   },
   "proof": {
     "type": "BbsBlsSignatureProof2020",
-    "proofValue": "bbs_proof_4969042d37d399c1",
+    "proofValue": "bbs_proof_ee13c2f173718c93",
     "revealed_fields": [
       "identity",
       "overclaim_rate_detected",

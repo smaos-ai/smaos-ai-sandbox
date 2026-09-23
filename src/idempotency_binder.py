@@ -11,7 +11,7 @@ downstream double-execution even if the transport layer drops the ACK.
 """
 import uuid
 from typing import Any
-from canonicalizer import digest
+from src.canonicalizer import digest
 
 # A dedicated namespace UUID for SMAOS Idempotency Binding
 SMAOS_NAMESPACE = uuid.UUID("f3b2b8c9-0a14-49c8-9d62-111111111111")

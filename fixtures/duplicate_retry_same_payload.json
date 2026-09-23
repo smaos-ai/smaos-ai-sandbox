@@ -1,0 +1,19 @@
+{
+  "scenario_id": "duplicate_retry_same_payload",
+  "scenario": "duplicate_retry_same_payload",
+  "description": "Agent retries transaction with identical payload without verifying in-flight status",
+  "dispatched_by": "Agent-LangChain-Treasury",
+  "destination_account": "CZ6508000000001234567890",
+  "amount": 50000.0,
+  "currency": "EUR",
+  "auth_header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.x",
+  "idempotency_key": "tx-8821-disburse-006",
+  "transport_fault": "DUPLICATE_IN_FLIGHT",
+  "wire_event": "HTTP 409 Conflict - duplicate retry while initial dispatch unconfirmed",
+  "sdk_claimed_state": "RETRY_DISPATCH",
+  "claimed_by_agent": "RETRY_DISPATCH",
+  "evaluated_disposition": "CONFLICT",
+  "final_disposition": "CONFLICT",
+  "discrepancy_detected": false,
+  "reason": "Connection aborted. Remote mutation state uncertain. Unsafe to retry without idempotency proof."
+}

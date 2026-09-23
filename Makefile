@@ -1,16 +1,22 @@
-.PHONY: all setup run-audit verify-receipts clean
+.PHONY: all setup test verify run-audit soak clean
 
-all: setup run-audit verify-receipts
+all: test verify
 
 setup:
-	docker compose build
+	pip install -r requirements.txt -r requirements-dev.txt
+
+test:
+	python3 -m pytest tests/ -v
+
+verify:
+	./verify.sh
+	./bin/verify.sh
 
 run-audit:
-	docker compose run --rm smaos-evaluator
+	python3 run.py --scenario 504_timeout --export-dir ./audit_out
 
-verify-receipts:
-	./bin/verify.sh audit_out/trust_passport.json
+soak:
+	python3 production_soak_test.py
 
 clean:
-	rm -rf audit_out/*
-	docker compose down -v
+	rm -rf audit_out/* audit_out_verify/* .pytest_cache __pycache__ *.pyc

@@ -1,0 +1,19 @@
+{
+  "scenario_id": "payload_mutation_on_retry",
+  "scenario": "payload_mutation_on_retry",
+  "description": "Agent modifies payload parameters on retry while reusing existing idempotency key",
+  "dispatched_by": "Agent-LangChain-Treasury",
+  "destination_account": "CZ6508000000001234567890",
+  "amount": 52000.0,
+  "currency": "EUR",
+  "auth_header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.x",
+  "idempotency_key": "tx-8821-disburse-007",
+  "transport_fault": "PAYLOAD_MUTATION",
+  "wire_event": "HTTP 409 Conflict - payload hash mismatch under identical idempotency key",
+  "sdk_claimed_state": "CONFIRMED",
+  "claimed_by_agent": "CONFIRMED",
+  "evaluated_disposition": "CONFLICT",
+  "final_disposition": "CONFLICT",
+  "discrepancy_detected": true,
+  "reason": "Wire observed conflicting action payload under identical action identifier."
+}

@@ -1,18 +1,16 @@
 version: '3.8'
+
 services:
   smaos-governance-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: smaos-ai/sandbox:v0.5.0
     container_name: smaos_hardened_runtime
+    ports:
+      - "127.0.0.1:8765:8765"
     network_mode: "none" # Zero-egress air-gap isolation
-    cap_drop:
-      - ALL
-    cap_add:
-      - CAP_BPF # Required for eBPF XDP kernel driver attach
-      - CAP_NET_ADMIN # Required for network interface socket hooks
     security_opt:
       - no-new-privileges:true
-    read_only: true
-    tmpfs:
-      - /tmp:rw,noexec,nosuid
     volumes:
-      - ./audit_out:/workspace/audit_out:rw
+      - ./audit_out:/app/audit_out:rw

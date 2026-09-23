@@ -1,0 +1,19 @@
+{
+  "scenario_id": "malformed_response",
+  "scenario": "malformed_response",
+  "description": "Downstream returns HTTP 200 with corrupted JSON and missing settlement signature",
+  "dispatched_by": "Agent-LangChain-Treasury",
+  "destination_account": "CZ6508000000001234567890",
+  "amount": 50000.0,
+  "currency": "EUR",
+  "auth_header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.x",
+  "idempotency_key": "tx-8821-disburse-008",
+  "transport_fault": "MALFORMED_JSON",
+  "wire_event": "HTTP 200 OK with truncated payload and invalid JSON syntax",
+  "sdk_claimed_state": "CONFIRMED",
+  "claimed_by_agent": "CONFIRMED",
+  "evaluated_disposition": "INVALID_INPUT",
+  "final_disposition": "INVALID_INPUT",
+  "discrepancy_detected": true,
+  "reason": "Downstream response violates wire contract schema; cannot assert valid confirmation."
+}

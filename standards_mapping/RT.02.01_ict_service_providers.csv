@@ -1,0 +1,3 @@
+RowId,ContractRef,ICTServiceType,FunctionIdentified,DORA_Article_17_Containment,CriticalOrImportant
+R0010,CTR-2026-991,Agentic API Orchestration,Payment Settlement Routing,SMAOS_PROOF_OR_STOP_FILTER,TRUE
+R0020,CTR-2026-992,LLM Inference Endpoint,Customer Chat Assistant,NONE_MONITORING_ONLY,FALSE

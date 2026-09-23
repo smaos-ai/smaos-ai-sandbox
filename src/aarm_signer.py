@@ -6,14 +6,18 @@ signs payloads with Ed25519, and packages into RFC 9942 COSE_Sign1.
 import json
 import base64
 import hashlib
+import sys
 from cryptography.hazmat.primitives.asymmetric import ed25519
-from src.canonicalizer import canonicalize
+try:
+    from src.canonicalizer import canonicalize
+except ImportError:
+    from canonicalizer import canonicalize
 
 class AARMSigner:
     def __init__(self):
         self.private_key = ed25519.Ed25519PrivateKey.generate()
 
-    def generate_receipt(self, passport_path: str, output_path: str):
+    def generate_receipt(self, passport_path: str, output_path: str, verbose: bool = False):
         with open(passport_path, 'r') as f:
             data = json.load(f)
             
@@ -38,8 +42,9 @@ class AARMSigner:
         with open(output_path, 'w') as f:
             json.dump(cose_envelope, f, indent=2)
             
-        print(f"[*] AARM SCITT COSE_Sign1 Envelope Generated: {output_path}")
+        if verbose:
+            print(f"[*] AARM SCITT COSE_Sign1 Envelope Generated: {output_path}", file=sys.stderr)
 
 if __name__ == "__main__":
     signer = AARMSigner()
-    signer.generate_receipt("audit_out/trust_passport.json", "audit_out/receipt.cose")
+    signer.generate_receipt("audit_out/trust_passport.json", "audit_out/receipt.cose", verbose=True)

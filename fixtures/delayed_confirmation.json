@@ -1,0 +1,19 @@
+{
+  "scenario_id": "delayed_confirmation",
+  "scenario": "delayed_confirmation",
+  "description": "EUR 50,000 Loan Disbursement confirmation arrives after client-side timeout deadline",
+  "dispatched_by": "Agent-LangChain-Treasury",
+  "destination_account": "CZ6508000000001234567890",
+  "amount": 50000.0,
+  "currency": "EUR",
+  "auth_header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.x",
+  "idempotency_key": "tx-8821-disburse-005",
+  "transport_fault": "HTTP_504_TIMEOUT",
+  "wire_event": "HTTP 504 at t+30s, HTTP 200 arrived at t+65s (Post-Deadline)",
+  "sdk_claimed_state": "CONFIRMED",
+  "claimed_by_agent": "CONFIRMED",
+  "evaluated_disposition": "dispatched_unconfirmed",
+  "final_disposition": "dispatched_unconfirmed",
+  "discrepancy_detected": true,
+  "reason": "Dispatch observed, confirmation absent before deadline. Late arrival creates ungrounded confirmation risk."
+}

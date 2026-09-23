@@ -6,10 +6,14 @@ a COSE_Sign1 structure for immutable transparency ledger notarization.
 import json
 import base64
 import hashlib
+import sys
 from cryptography.hazmat.primitives.asymmetric import ed25519
-from src.canonicalizer import canonicalize
+try:
+    from src.canonicalizer import canonicalize
+except ImportError:
+    from canonicalizer import canonicalize
 
-def generate_scitt_envelope(passport_path: str, output_path: str):
+def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool = False):
     with open(passport_path, 'r') as f:
         data = json.load(f)
         
@@ -35,7 +39,8 @@ def generate_scitt_envelope(passport_path: str, output_path: str):
     with open(output_path, 'w') as f:
         json.dump(cose_envelope, f, indent=2)
         
-    print(f"[*] IETF SCITT COSE_Sign1 Envelope Generated: {output_path}")
+    if verbose:
+        print(f"[*] IETF SCITT COSE_Sign1 Envelope Generated: {output_path}", file=sys.stderr)
 
 if __name__ == "__main__":
-    generate_scitt_envelope("audit_out/trust_passport.json", "audit_out/trust_passport.cose.json")
+    generate_scitt_envelope("audit_out/trust_passport.json", "audit_out/trust_passport.cose.json", verbose=True)

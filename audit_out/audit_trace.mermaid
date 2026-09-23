@@ -1,5 +1,13 @@
 sequenceDiagram
-  participant Agent
-  participant Membrane
-  Agent->>Membrane: Execute
-  Membrane-->>Agent: Dropped (504)
+    autonumber
+    actor Agent as Autonomous Agent
+    participant Observer as SMAOS Local Observer (passive)
+    participant Gateway as Core Banking Gateway
+
+    Observer->>Agent: observes outbound
+    Agent->>Gateway: POST /v1/settle (EUR 50,000 to [REDACTED_IBAN])
+    Gateway--xAgent: HTTP 504 Gateway Timeout / Drop
+    Note over Agent: SDK swallows exception
+    Agent->>Agent: logs {"status": "CONFIRMED"}
+    Observer->>Observer: compares wire state vs. claimed state
+    Observer->>Observer: emits dispatched_unconfirmed + evidence bundle

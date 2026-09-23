@@ -1,1 +1,47 @@
-{"disposition": "dispatched_unconfirmed", "wire_fault": true}
+{
+  "receipt_id": "urn:uuid:5f09df1b-1a8d-47f5-95e9-69f7ac8a3cc7",
+  "version": "v0.2.0-aat-pqc",
+  "timestamp_utc": "2026-09-22T17:24:01Z",
+  "scenario_id": "504_timeout",
+  "scenario_alias": "prevent_silent_double_spend_on_504",
+  "nist_ai_rmf_control": "MEASURE 2.1 (System reliability under transport fault)",
+  "dispatched_by": "Agent-LangChain-Treasury",
+  "payload_summary": "EUR 50,000 to [REDACTED_IBAN]",
+  "transport_fault": "HTTP_504_TIMEOUT",
+  "wire_event": "HTTP 504 Gateway Timeout, no confirmation",
+  "sdk_claimed_state": "CONFIRMED",
+  "evaluated_disposition": "dispatched_unconfirmed",
+  "discrepancy_detected": true,
+  "reason": "Dispatch observed, confirmation absent. Unknown effect.",
+  "audit_stream": "INDEPENDENT_EVIDENCE_BUNDLE",
+  "log_tampering": false,
+  "dora_article_17_support": "Supports DORA Article 17 incident classification by producing a machine-readable timeline and wire-evidence bundle for risk team review",
+  "pci_dss_sanitization": "ACTIVE_ZERO_EGRESS",
+  "human_oversight": {
+    "reviewed": false,
+    "status": "awaiting_human_validation",
+    "required_by": "EU AI Act Art. 14"
+  },
+  "rejected_paths": [
+    {
+      "option": "ASSUME_SUCCESS",
+      "reason": "evidence_absent_confirmed_forbidden",
+      "score": 0.0,
+      "rejected_at": "2026-09-22T17:24:01Z"
+    },
+    {
+      "option": "RETRY_IMMEDIATE",
+      "reason": "no_confirmation_within_deadline_hazard",
+      "score": 0.12,
+      "rejected_at": "2026-09-22T17:24:01Z"
+    }
+  ],
+  "cryptographic_signatures": {
+    "canonical_payload_sha256": "sha256:d0b3d8b83e8005f59f1e8fae553b5dc5be23c11e03b65a98b31bf8e3d4d43aad",
+    "signature_ed25519": "ed25519:e58e93e6b76a1b1bed74a6ed7836ca362",
+    "signature_bbs_plus": "bbs_plus:mock_selective_disclosure_signature"
+  },
+  "scenario": "504_timeout",
+  "claimed_by_agent": "CONFIRMED",
+  "final_disposition": "dispatched_unconfirmed"
+}
