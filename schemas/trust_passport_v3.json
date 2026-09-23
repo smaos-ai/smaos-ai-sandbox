@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SMAOS Trust Passport v3 (Behavioral Governance Edition)",
+  "type": "object",
+  "required": [
+    "identity",
+    "delegation",
+    "authority",
+    "behavioral_intent_ledger",
+    "continuous_learning_snapshot",
+    "hardware_attestation_quote"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "properties": {
+        "agent_id": { "type": "string" },
+        "model_architecture": { "type": "string" }
+      },
+      "required": ["agent_id"]
+    },
+    "delegation": {
+      "type": "object",
+      "properties": {
+        "delegated_by": { "type": "string" },
+        "prior_state_hash": { "type": "string" }
+      },
+      "required": ["delegated_by", "prior_state_hash"]
+    },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "action_scope": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "max_limit_minor": { "type": "integer" }
+      },
+      "required": ["action_scope"]
+    },
+    "behavioral_intent_ledger": {
+      "type": "array",
+      "description": "Cryptographic declaration of pre-execution intent vs final wire state",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intent_id": { "type": "string" },
+          "target_api": { "type": "string" },
+          "pre_execution_gate": { "enum": ["ALLOW", "DENY", "AWAITING_HUMAN"] },
+          "final_wire_status": { "enum": ["CONFIRMED", "UNKNOWN", "REFUSED", "INVALID_INPUT"] }
+        },
+        "required": ["intent_id", "target_api", "pre_execution_gate", "final_wire_status"]
+      }
+    },
+    "continuous_learning_snapshot": {
+      "type": "object",
+      "description": "Temporal state capture of dynamically learning models (mini-AGI)",
+      "properties": {
+        "base_model_weights_sha256": { "type": "string" },
+        "dynamic_lora_rank": { "type": "integer" },
+        "memory_vector_db_hash": { "type": "string" }
+      },
+      "required": ["base_model_weights_sha256"]
+    },
+    "hardware_attestation_quote": {
+      "type": "object",
+      "description": "CPU-level attestation (Intel TDX/AMD SEV-SNP)",
+      "properties": {
+        "tee_type": { "enum": ["INTEL_TDX", "AMD_SEV_SNP", "AWS_NITRO"] },
+        "report_data_nonce": { "type": "string" },
+        "mrenclave_measurement": { "type": "string" }
+      },
+      "required": ["tee_type", "report_data_nonce", "mrenclave_measurement"]
+    }
+  }
+}
