@@ -195,8 +195,8 @@ class DORAXBRLCompiler:
             written_paths.append(out_file)
         return written_paths
 
-    def compile_package_zip(self, zip_path: str = "audit_out/DORA_Register_DPM40_EBA_ITS_2024_2956.zip") -> Path:
-        """Bundles all 15 templates and the xBRL-CSV manifest into a submission .zip package."""
+    def compile_package_zip(self, zip_path: str = "audit_out/DORA_Register_DPM40_EBA_ITS_2024_2956.zip", verifier_html: Optional[str] = "dist/verifier.html") -> Path:
+        """Bundles all 15 templates, the xBRL-CSV manifest, and offline verifier.html into a submission .zip package."""
         written = self.write_csv_templates()
         out_zip = Path(zip_path)
         out_zip.parent.mkdir(parents=True, exist_ok=True)
@@ -221,6 +221,13 @@ class DORAXBRLCompiler:
             z.writestr("report-package.json", json.dumps(manifest, indent=2))
             for p in written:
                 z.write(p, arcname=p.name)
+            
+            # Attach verifier.html if present
+            v_candidates = [verifier_html, "dist/verifier.html", "smaos_verify/verify_offline.html"]
+            for cand in v_candidates:
+                if cand and Path(cand).exists():
+                    z.write(cand, arcname="verifier.html")
+                    break
 
         return out_zip
 

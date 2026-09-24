@@ -42,9 +42,11 @@ def test_dora_compiler_15_templates(tmp_path):
     with zipfile.ZipFile(z_file, "r") as z:
         names = z.namelist()
         assert "report-package.json" in names
-        assert len(names) == 16  # 15 tables + 1 manifest
+        assert "verifier.html" in names
+        assert len(names) == 17  # 15 tables + 1 manifest + 1 verifier.html
         # Test CRC
         assert z.testzip() is None
+
 
 def test_dora_orphan_detection(tmp_path):
     compiler = DORAXBRLCompiler(output_dir=str(tmp_path))
