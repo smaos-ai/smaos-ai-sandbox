@@ -3,8 +3,8 @@
   "mode": "SOVEREIGN_AIRGAP_REKOR",
   "log_id": "7ff4d41f98c02589295d784c5cd355b98f87d3a3903b5cd963afb0098c817fb0",
   "log_index": 1,
-  "integrated_time": 1790216990,
-  "entry_body_sha256": "fd89de04806804e80c2a80ae2914ead1f24f94d6cfaba731f9070e8bd9a87e35",
+  "integrated_time": 1790252006,
+  "entry_body_sha256": "9933eaf55fb7abbc29cbef40245beeeebbc4bf90004975f56c396608edbe9c96",
   "entry": {
     "apiVersion": "0.0.1",
     "kind": "hashedrekord",
@@ -16,9 +16,9 @@
         }
       },
       "signature": {
-        "content": "mXek5t6BHVmT3xfxmfroIuA1VErD6DqRpJrBAP2nV0iXXXWTcqjybrfwvHZ59BSoACFoxS4KeQHxbumPzQfRCQ==",
+        "content": "Y5jMFAFxmGS6FHvytGwzyBDzza9461AUpAYlVNu4rYFeknnbKBqvitCKRTGgDn3Vx3OhKP/FIVQp4eaMgD62Bg==",
         "publicKey": {
-          "content": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQWJWNVRiKzEwTUZWbGFWVWYycnR2SGRwTDZta3k2SGZvSUFkZWtBNExCVTg9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+          "content": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQUg5RzF1Ujd1WjRRZGJHVm9idjhkUUsxcE5TQWxFNzY4NXlERFBjWHpISW89Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
         }
       }
     }
@@ -26,7 +26,7 @@
   "inclusion_proof": {
     "log_index": 1,
     "tree_size": 2,
-    "root_hash": "77d439610e8ab89ee01e9975057a633cdcf661d7766c5707cc57cd2bc378441e",
+    "root_hash": "b0625daefd4be82ecf2959c554bad8ba81407e7bd2c32ae9046b39a09572e1aa",
     "audit_path": [
       {
         "direction": "left",
@@ -35,8 +35,8 @@
     ]
   },
   "signed_tree_head": {
-    "body": "tree_size=2;root_hash=77d439610e8ab89ee01e9975057a633cdcf661d7766c5707cc57cd2bc378441e;timestamp=1790216990",
-    "signature_base64": "8WEBZ/empfxZRqUqN5B7eN1iGHqTfRy5XfhhS1eh05yu9oShB6S5TGiDLXy6PkgLkgrN1C94uiSktH9e/VRVBA=="
+    "body": "tree_size=2;root_hash=b0625daefd4be82ecf2959c554bad8ba81407e7bd2c32ae9046b39a09572e1aa;timestamp=1790252006",
+    "signature_base64": "gnkGaUHEJsaVyRM8ENhN+flMoimrh5W+nFo1MSqnCj2aVLPUStEKJCaV5ywhWebn4i0pJCo1DU6jLU1Eaw7BCQ=="
   },
   "verification_status": "CRYPTOGRAPHICALLY_VERIFIED"
 }

@@ -6,7 +6,7 @@ This document defines the absolute, verified, and shippable scope for the v0.1.0
 
 ## 1. Product Line Architecture
 
-* **`aeib-receipt-fuzzer` (v0.2.0):** The open-core local fault injection proxy and evaluator.
+* **`smaos-ai-sandbox` (v1.1.0):** The open-core local fault injection proxy and evaluator.
 * **`smaos-audit` (v0.1.0):** The forensic engine generating DORA Article 17 and ISO 42001 compliance evidence.
 * **`star-protocol` (v0.1.0 Roadmap):** JCS (RFC 8785) + Ed25519 / ML-DSA-65 (FIPS 204) cryptographic Merkle DAG receipts.
 
@@ -14,7 +14,8 @@ This document defines the absolute, verified, and shippable scope for the v0.1.0
 
 ## 2. Container Spec & Zero-Egress Boundary
 
-* **Image Name:** `sovereignnexus/aeib-receipt-fuzzer:v0.1.0`
+* **Image Name:** `smaos-ai/smaos-ai-sandbox:v1.1.0`
+
 * **Single Launch Command:** `docker compose up`
 * **Network Isolation:** `--network none` (or `internal: true` bridge for localhost loopback UI). Absolutely zero external API calls, cloud telemetry, or external DNS resolution.
 * **Volume Mounts:**

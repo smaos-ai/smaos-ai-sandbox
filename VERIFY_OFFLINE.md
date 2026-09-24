@@ -108,14 +108,15 @@ SMAOS ships with an offline WebAssembly/HTML verification interface:
 1. Locate `smaos_verify/verify_offline.html` or `audit_out/verify_offline.html`.
 2. Open it directly in any browser using local file URL:
    ```text
-   file:///path/to/aeib-receipt-fuzzer/smaos_verify/verify_offline.html
+   file:///path/to/smaos-ai-sandbox/smaos_verify/verify_offline.html
    ```
 3. Drag and drop `./audit_out/504_timeout/disposition_report.json`.
 4. The offline engine immediately parses the receipt, checks RFC 8785 canonicalization, validates the `awaiting_human_validation` oversight gate, and renders the green audit verification status with **0 network requests**.
 
 ---
 
-## Step 6: Verify Full 8-Scenario Suite Integrity
+## Step 6: Verify Full 9-Scenario Suite Integrity
+
 
 Run the automated local verification suite:
 

@@ -1,0 +1,7 @@
+--- a/agent/harness.py
++++ b/agent/harness.py
+@@ -15,4 +15,6 @@
++from smaos.guard import proof_or_stop
++
++@proof_or_stop(enforce_unknown_on_504=True)
+ def settle_transaction(payload):

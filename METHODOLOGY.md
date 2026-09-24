@@ -12,17 +12,18 @@ an unconfirmed effect to a false success?
 
 Each scenario specifies:
 
-- A **transport fault** injected by the SMAOS mock proxy (`127.0.0.1:18080`)
+- A **transport fault** injected by the SMAOS fault-injection proxy (`127.0.0.1:18080`)
 - The **SDK-claimed state** the agent harness would log without intervention
 - The **expected disposition** the SMAOS engine must record
 
-The eight Tier-1 wire-fault and idempotency scenarios are defined in `scenarios.md`.
+The nine Tier-1 wire-fault and idempotency scenarios are defined in `scenarios.md`.
 
 ## How the Engine Runs
 
-1. A mock downstream server starts on `127.0.0.1:18081`.
+1. A local downstream settlement ledger starts on `127.0.0.1:18081`.
 2. SMAOS injects the specified transport fault via a local proxy on `127.0.0.1:18080`.
-3. The agent call is routed through the proxy toward the mock server.
+3. The agent call is routed through the proxy toward the settlement ledger.
+
 4. SMAOS observes the raw socket outcome and compares it to the agent's claimed state.
 5. If the wire drops but the agent claims `CONFIRMED`, SMAOS records `dispatched_unconfirmed`.
 6. All execution is loopback-only. No bytes leave `127.0.0.1`.

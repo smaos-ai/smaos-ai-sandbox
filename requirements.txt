@@ -1,2 +1,4 @@
 # SMAOS / AEIB Settlement Fuzzer & Wire Truth Engine
-# Zero external dependencies - Standard Library only (Python 3.10+)
+# Core engine requires Standard Library; SCITT & PQC signing utilizes cryptography
+cryptography>=41.0.0
+

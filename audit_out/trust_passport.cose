@@ -5,52 +5,39 @@
       "profile"
     ],
     "profile": "draft-ietf-scitt-architecture-04",
-    "content_type": "application/json"
+    "content_type": "application/json",
+    "crypto_suite": "Ed25519+ML-DSA-65-Hybrid",
+    "pqc_standard": "NIST FIPS 204"
   },
   "unprotected_header": {
     "kid": "did:smaos:key:behavioral_001"
   },
-  "payload_hash": "5f6ef2dcbb787400c338516e3e8c435cc8d89721e4713219d66ec5450871d3b8",
-  "signature_base64": "4M1Bwm+QgSQjU8sF+3DsGqJUB2asJlNL+vF10gtdYWmlP1dFj83I2feZwON/8hFSai6tQHJ1fCge6JOY9BorAA==",
+  "payload_hash": "efe773cbf68ee85679422538b5a772286391ea75e8f7999e34f5650af600ce1e",
+  "signature_base64": "CUnGC0HdI4CQUYdIwRqIjfHbHWGdYEp1pB0m7jwjKkUZFrKTt9UWzDPx5LgUqwoDqe1o6S0ElGGT1nXH7jWtCg==",
   "payload": {
-    "passport_id": "urn:uuid:passport-504_timeout-2026",
-    "generated_at_utc": "2026-09-22T17:24:01Z",
-    "target_harness": "Agent-LangChain-Treasury",
-    "engine_version": "v0.4.0-wire-truth",
-    "governance_standards": [
-      "EU AI Act Article 14 (Human Oversight - Status: awaiting_human_validation)",
-      "EU AI Act Article 12 (Automatic Logging of Mutating Transactions)",
-      "EBA DORA RTS 2024/1772 Article 17 (Major ICT Incident Classification)",
-      "NIST AI RMF 1.0 (MEASURE 2.1, MANAGE 1.3, MAP 1.5, GOVERN 1.2)"
-    ],
+    "version": "0.3.0",
+    "audit_id": "sm-aos-20260924-001",
     "identity": {
-      "actor": "Agent-LangChain-Treasury",
-      "token": "urn:smaos:token:anonymous"
+      "agent_id": "did:smaos:agent-treasury-001",
+      "model_weight_digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "delegation": {
-      "on_behalf_of": "urn:smaos:delegator:system",
-      "ceiling_enforced": true
+      "delegated_by": "user-analyst-cz-441",
+      "scope": [
+        "read_accounts",
+        "write_payments_up_to_50000"
+      ]
     },
     "authority": {
-      "permitted": [
-        "POST /v1/settle",
-        "GET /v1/status",
-        "payments.execute"
+      "policy_version": "payments-policy-v1.3",
+      "action_scope": [
+        "payments.execute",
+        "audit.write"
       ],
-      "rejected_paths": [
-        {
-          "option": "ASSUME_SUCCESS",
-          "reason": "evidence_absent_confirmed_forbidden",
-          "score": 0.0,
-          "rejected_at": "2026-09-22T17:24:01Z"
-        },
-        {
-          "option": "RETRY_IMMEDIATE",
-          "reason": "no_confirmation_within_deadline_hazard",
-          "score": 0.12,
-          "rejected_at": "2026-09-22T17:24:01Z"
-        }
-      ]
+      "constraints": {
+        "max_amount_eur": 50000
+      },
+      "max_limit_minor": 5000000
     },
     "negative_state_assertions": [
       "authority_created = false",
@@ -63,23 +50,21 @@
       "external_execution_unauthorized": false,
       "auto_compliance_manufactured": false
     },
-    "scenario_id": "504_timeout",
-    "scenario_alias": "prevent_silent_double_spend_on_504",
-    "nist_control": "MEASURE 2.1 (System reliability under transport fault)",
-    "evaluated_disposition": "dispatched_unconfirmed",
-    "discrepancy_detected": true,
-    "human_oversight": {
-      "reviewed": false,
-      "status": "awaiting_human_validation",
-      "required_by": "EU AI Act Art. 14"
-    },
-    "dora_rts_classification": "4h_major_incident",
-    "remediation_status": {
-      "remediation_available": true,
-      "filter_class": "ProofOrStopFilter.java",
-      "remediation_invariant": "Evidence Absent => UNKNOWN / dispatched_unconfirmed"
-    },
-    "offline_verifier": "smaos_verify.wasm",
-    "certification_disclaimer": "Technical evidence measurement, not statutory certification. Human risk review required."
+    "prior_state_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "rejected_paths": [
+      {
+        "scenario_id": "prevent_silent_double_spend_on_504",
+        "option": "retry_immediately",
+        "reason": "wire_evidence_absent",
+        "score": 0.0
+      }
+    ]
+  },
+  "pqc_mldsa65": {
+    "algorithm": "ML-DSA-65",
+    "security_level": "NIST Level 3 / CNSA 2.0 (192-bit quantum security)",
+    "signature_base64": "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",
+    "public_key_hex": "f684ad2e8ad7da88005d92654016e566a0c9969e9983738d5b375758e6e980f2...",
+    "quantum_resistant_until": "2050+"
   }
 }

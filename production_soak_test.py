@@ -29,8 +29,9 @@ from pathlib import Path
 try:
     from run import evaluate_disposition
 except ImportError:
-    print("Error: run.py not found. Must execute from aeib-receipt-fuzzer directory.")
+    print("Error: run.py not found. Must execute from smaos-ai-sandbox directory.")
     exit(1)
+
 
 
 def parse_args():

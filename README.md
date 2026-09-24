@@ -34,7 +34,8 @@ We built **SMAOS** to bridge the gap between engineering reality and regulatory 
 ### 🛠️ For the CTO & Lead Architect: Stopping Silent Ledger Drift
 * **Your Pain**: Agent SDKs swallow `HTTP 504 Gateway Timeouts` and falsely log `CONFIRMED`. Your databases fall out of sync with payment gateways, causing silent ledger drift and 4:00 AM reconciliation failures.
 * **The Ground Truth**: **DEMM-Bench (arXiv:2606.20634)** proves that across 64 cases and eight evidence regimes, "full traces" and "schema validation" overclaim on **75% of dropped wire cases** (*The Container Fallacy*). The records look complete, but cannot prove what actually occurred on the wire.
-* **Our Verifiable Proof**: `aeib-receipt-fuzzer` simulates local wire faults (`504_timeout`, `tcp_reset`). While standard agent SDKs swallow exceptions, SMAOS intercepts the wire state, redacts PII in-memory, and records the discrepancy as **`dispatched_unconfirmed`**.
+* **Our Verifiable Proof**: `smaos-ai-sandbox` simulates local wire faults (`504_timeout`, `tcp_reset`). While standard agent SDKs swallow exceptions, SMAOS intercepts the wire state, redacts PII in-memory, and records the discrepancy as **`dispatched_unconfirmed`**.
+
 * **The Drop-In Patch**: You receive a 15-line Java filter (`ProofOrStopFilter.java`) to immediately patch Spring Boot backends and fail closed.
 * **Explore**: [smaos-ai/smaos-ai-sandbox](https://github.com/smaos-ai/smaos-ai-sandbox) · [fixtures/504_timeout.json](https://github.com/smaos-ai/smaos-ai-sandbox/blob/main/fixtures/504_timeout.json)
 
@@ -65,12 +66,13 @@ We built **SMAOS** to bridge the gap between engineering reality and regulatory 
 ```bash
 # Run local zero-egress fault injection — no external registry required
 git clone https://github.com/smaos-ai/smaos-ai-sandbox
-cd aeib-receipt-fuzzer
+cd smaos-ai-sandbox
 python3 run.py --scenario 504_timeout --export-dir ./audit_out
 # Optional: build and run local container (builds from source, no Docker Hub pull)
 docker build -t smaos-demo:0.4.0 .
 docker run --rm -p 127.0.0.1:8765:8765 --network none smaos-demo:0.4.0
 ```
+
 
 #### Scenario Disposition & NIST AI RMF 1.0 Conformance Matrix (9 Vectors)
 | Canonical ID | Risk-Prevention UX Alias | NIST AI RMF | Wire Event | SDK Claim | SMAOS Disposition | Risk Mitigated |
@@ -177,4 +179,5 @@ SMAOS v1.1.0 ships four core enterprise infrastructure pillars for high-assuranc
 * **Inquiries & SOW**: Contact `andrejlo123@gmail.com` | **SovereignNexus s.r.o.**, Prague, Czech Republic.
 
 ---
-*One command. Eight scenarios. Zero egress. The truth is on the wire.*
+*One command. Nine scenarios. Zero egress. The truth is on the wire.*
+
