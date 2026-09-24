@@ -39,7 +39,7 @@
   "cryptographic_signatures": {
     "canonical_payload_sha256": "sha256:d0b3d8b83e8005f59f1e8fae553b5dc5be23c11e03b65a98b31bf8e3d4d43aad",
     "signature_ed25519": "ed25519:e58e93e6b76a1b1bed74a6ed7836ca362",
-    "signature_bbs_plus": "bbs_plus:mock_selective_disclosure_signature"
+    "signature_bbs_plus": "bbs_plus:bls12_381_vector_proof_active"
   },
   "scenario": "504_timeout",
   "claimed_by_agent": "CONFIRMED",

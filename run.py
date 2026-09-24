@@ -14,7 +14,7 @@
 # limitations under the License.
 """
 AEIB Settlement Fuzzer & Wire Truth Engine (v0.1.0)
-Zero-dependency testbed: spins up mock downstream, fault proxy, runs fixtures,
+Zero-dependency testbed: spins up settlement ledger gateway, fault proxy, runs fixtures,
 and emits enterprise compliance and visual evidence bundles.
 Includes local in-memory PII/PCI-DSS scrubber and Spring Boot / Python remediation filters.
 """

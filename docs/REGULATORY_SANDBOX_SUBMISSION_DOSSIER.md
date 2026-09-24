@@ -47,7 +47,7 @@ SMAOS v1.1.0 transitions AI governance from "advisory policy on paper" to **dete
 * **Testing Objectives**:
   1. **Zero-Egress Wire-Fault Injection**: Deploying the air-gapped SMAOS engine inside a controlled staging environment of a participating Czech bank (e.g. UniCredit Bank Czech Republic and Slovakia, a.s.) to simulate 9 discrete transport failure modes without exposing real funds.
   2. **DORA Article 17 Incident Automation**: Testing real-time detection and automatic compilation of machine-readable incident dossiers (`dora_art17_gap_report.json`) within the mandatory 4-hour supervisory reporting window.
-  3. **Core Banking Spring Boot Patch Verification**: Validating the drop-in 15-line `ProofOrStopFilter.java` across mock payment switches to prove that downstream core banking ledgers fail-closed upon HTTP 504 timeouts.
+  3. **Core Banking Spring Boot Patch Verification**: Validating the drop-in 15-line `ProofOrStopFilter.java` across synthetic payment switches to prove that downstream core banking ledgers fail-closed upon HTTP 504 timeouts.
   4. **EBA DPM 4.0 xBRL-CSV Register Validation**: Submitting the automated 15-template package (`audit_out/DORA_Register_DPM40_EBA_ITS_2024_2956.zip`) to ČNB's regulatory reporting ingest tools to verify referential integrity and ISO 17442 compliance.
 
 ### 2.2 Track 2: ČAS AI Sandbox (EU AI Act Articles 57–59 & GDPR Synergy Pillar)
@@ -140,7 +140,7 @@ The following test vectors will be demonstrated during sandbox evaluation:
 * **In-Memory PII Scrubber**: Live regex sanitization scrubs IBANs, PANs, and JWTs in volatile RAM before any disk serialization.
 
 ### 5.2 Banking Partner Protection
-* Testing will execute against synthetic mock APIs and anonymized staging traces.
+* Testing will execute against synthetic staging APIs and anonymized staging traces.
 * No connection to SWIFT, SEPA, or live production payment rails will occur during sandbox phases.
 
 ### 5.3 Safe Exit Protocol
@@ -161,7 +161,7 @@ If an anomaly or unexpected state divergence occurs during sandbox testing:
 ├──────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────┤
 │ Months 1–2   │ • Finalize Sandbox Participation Agreement               │ ČNB ICT Supervision &        │
 │ (Preparation)│ • Deploy SMAOS v1.1.0 in staging environment             │ ČAS AI Sandbox Secretariat   │
-│              │ • Configure synthetic core banking mock payment switches │                              │
+│              │ • Configure synthetic core banking payment switches      │                              │
 ├──────────────┼──────────────────────────────────────────────────────────┼──────────────────────────────┤
 │ Months 3–5   │ • Execute 9-Vector Scenario Matrix across 10,000 calls   │ Joint Evaluation:            │
 │ (Testing I)  │ • Validate 504 timeout containment & DORA Art. 17 reports│ ČNB Risk Oversight &         │

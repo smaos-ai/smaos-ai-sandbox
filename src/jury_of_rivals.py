@@ -9,25 +9,52 @@ class JuryOfRivals:
     def __init__(self, models: List[str] = None):
         self.models = models or ["evaluator_alpha", "evaluator_beta", "evaluator_gamma"]
 
+    def _eval_alpha(self, payload: Dict[str, Any]) -> str:
+        """Evaluator Alpha: Admissibility ceiling & delegation inspector."""
+        amount = payload.get("amount", 0.0)
+        if isinstance(amount, (int, float)) and amount > 50000.0:
+            return "BLOCK"
+        return "ALLOW"
+
+    def _eval_beta(self, payload: Dict[str, Any]) -> str:
+        """Evaluator Beta: Scope whitelisting & restricted action inspector."""
+        action = str(payload.get("action", "")).lower()
+        if any(forbidden in action for forbidden in ["exfiltrate", "drop_table", "sudo", "override_auth"]):
+            return "BLOCK"
+        return "ALLOW"
+
+    def _eval_gamma(self, payload: Dict[str, Any]) -> str:
+        """Evaluator Gamma: Payload structure, idempotency & parameter schema inspector."""
+        if not payload or not isinstance(payload, dict):
+            return "BLOCK"
+        if "action" not in payload and "resource" not in payload:
+            return "ESCALATE"
+        return "ALLOW"
+
     def evaluate_consensus(self, intent_payload: Dict[str, Any]) -> str:
         """
-        Query multiple models in parallel and compute quorum agreement.
+        Executes rival deterministic evaluators and computes quorum agreement.
         Returns ALLOW, BLOCK, or ESCALATE.
         """
-        # Mocking async multi-model parallel queries
-        print(f"[*] Querying consensus quorum: {self.models}")
-        
-        # Simulated votes
-        votes = {"ALLOW": 2, "BLOCK": 1}
-        print(f"[*] Quorum votes received: {votes}")
-        
-        allow_votes = votes.get("ALLOW", 0)
-        if allow_votes > len(self.models) / 2:
+        evaluators = {
+            "evaluator_alpha": self._eval_alpha,
+            "evaluator_beta": self._eval_beta,
+            "evaluator_gamma": self._eval_gamma,
+        }
+
+        votes: Dict[str, int] = {"ALLOW": 0, "BLOCK": 0, "ESCALATE": 0}
+        for name, func in evaluators.items():
+            vote = func(intent_payload)
+            votes[vote] = votes.get(vote, 0) + 1
+
+        quorum_threshold = len(evaluators) / 2
+        if votes["ALLOW"] > quorum_threshold:
             return "ALLOW"
-        elif votes.get("BLOCK", 0) > len(self.models) / 2:
+        elif votes["BLOCK"] > quorum_threshold:
             return "BLOCK"
         
         return "ESCALATE"
+
 
 if __name__ == "__main__":
     jury = JuryOfRivals()

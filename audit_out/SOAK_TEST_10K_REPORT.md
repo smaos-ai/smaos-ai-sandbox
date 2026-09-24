@@ -15,7 +15,7 @@ This endurance benchmark subjects the **SMAOS Behavioral Physics Engine** to **1
 ### 🎯 Key Empirical Findings
 1. **0.0% Overclaim Rate**: Across 7,500 injected network failures (HTTP 504, TCP RST mid-flight, and late HTTP 200 acknowledgments past the 2,000ms TTL), **zero unverified state promotions occurred**. Every transaction deterministically downgraded to `dispatched_unconfirmed` or `CONFLICT`.
 2. **Absolute Zero-Egress Containment**: `0 bytes` escaped outside the `127.0.0.1` boundary. All 100 unauthorized egress lateral movement probes were intercepted and dropped in Ring-0 eBPF XDP in `<500 nanoseconds`.
-3. **Sub-Millisecond Execution Overhead**: Achieved **p99 latency of `0.2016 ms`** (SLA target `<1.0000 ms`) and average processing overhead of `0.1321 ms`, enabling **7,229.80 transactions/second**.
+3. **Sub-Millisecond Execution Overhead**: Achieved **p99 latency of `0.1937 ms`** (SLA target `<1.0000 ms`) and average processing overhead of `0.1305 ms`, enabling **7,287.47 transactions/second**.
 4. **100% Cryptographic Stability**: 10,000 receipts generated with deterministic RFC 8785 JCS canonicalization and Ed25519 digital signatures. Peak heap memory was contained at **`2.30 MB`**, well within the strict `64.00 MB` enterprise ceiling.
 
 ---
@@ -54,14 +54,14 @@ High-resolution nanosecond timestamps (`time.perf_counter_ns`) recorded every li
 
 | Metric | Measured Value | Regulatory SLA Target | Conformance Status |
 | :--- | :--- | :--- | :--- |
-| **Throughput (Transactions/sec)** | `7,229.80 tx/sec` | `> 1,000 tx/sec` | ✅ PASS |
-| **Throughput (Transactions/min)** | `433,787.96 tx/min` | `> 60,000 tx/min` | ✅ PASS |
-| **Average Latency** | `0.1321 ms` | `< 0.5000 ms` | ✅ PASS |
-| **Median (p50)** | `0.1262 ms` | `< 0.2000 ms` | ✅ PASS |
-| **95th Percentile (p95)** | `0.1473 ms` | `< 0.8000 ms` | ✅ PASS |
-| **99th Percentile (p99)** | `0.2016 ms` | `< 1.0000 ms` | ✅ PASS |
-| **Minimum Latency** | `0.1204 ms` | — | ✅ PASS |
-| **Maximum Peak Latency** | `5.4252 ms` | `< 10.0000 ms` | ✅ PASS |
+| **Throughput (Transactions/sec)** | `7,287.47 tx/sec` | `> 1,000 tx/sec` | ✅ PASS |
+| **Throughput (Transactions/min)** | `437,248.07 tx/min` | `> 60,000 tx/min` | ✅ PASS |
+| **Average Latency** | `0.1305 ms` | `< 0.5000 ms` | ✅ PASS |
+| **Median (p50)** | `0.1259 ms` | `< 0.2000 ms` | ✅ PASS |
+| **95th Percentile (p95)** | `0.1467 ms` | `< 0.8000 ms` | ✅ PASS |
+| **99th Percentile (p99)** | `0.1937 ms` | `< 1.0000 ms` | ✅ PASS |
+| **Minimum Latency** | `0.1152 ms` | — | ✅ PASS |
+| **Maximum Peak Latency** | `0.7931 ms` | `< 10.0000 ms` | ✅ PASS |
 
 ---
 

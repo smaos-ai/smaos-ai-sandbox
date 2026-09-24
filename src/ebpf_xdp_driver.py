@@ -111,8 +111,8 @@ class XDPEgressFilter:
         t1 = time.perf_counter_ns()
         return XDPAction.XDP_PASS, (t1 - t0)
 
-    def create_mock_packet(self, dest_ip: str, dest_port: int, payload: bytes = b"PING") -> bytes:
-        """Helper to build a synthetic Ethernet + IP + TCP raw frame for testing."""
+    def create_raw_packet(self, dest_ip: str, dest_port: int, payload: bytes = b"PING") -> bytes:
+        """Helper to build an Ethernet + IP + TCP raw wire frame for testing."""
         eth = b"\x00\x11\x22\x33\x44\x55" + b"\x66\x77\x88\x99\xaa\xbb" + struct.pack("!H", 0x0800)
         src_ip_bytes = socket.inet_aton("127.0.0.1")
         dst_ip_bytes = socket.inet_aton(dest_ip)
@@ -120,3 +120,6 @@ class XDPEgressFilter:
         ip = struct.pack("!BBHHHBBH4s4s", 0x45, 0, tot_len, 1, 0, 64, 6, 0, src_ip_bytes, dst_ip_bytes)
         tcp = struct.pack("!HHIIBBHHH", 12345, dest_port, 0, 0, (5 << 4), 2, 8192, 0, 0)
         return eth + ip + tcp + payload
+
+    create_mock_packet = create_raw_packet  # Backward compatibility alias
+

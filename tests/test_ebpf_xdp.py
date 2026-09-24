@@ -25,7 +25,7 @@ def test_ebpf_xdp_c_source_validity():
 def test_xdp_filter_pass_allowed_traffic():
     """Validates that packets matching allowed IP and port pass through."""
     filter_driver = XDPEgressFilter(allowed_ips=["127.0.0.1"], allowed_ports=[8080])
-    packet = filter_driver.create_mock_packet(dest_ip="127.0.0.1", dest_port=8080, payload=b"VALID_TX")
+    packet = filter_driver.create_raw_packet(dest_ip="127.0.0.1", dest_port=8080, payload=b"VALID_TX")
 
     action, elapsed_ns = filter_driver.inspect_packet(packet)
     assert action == XDPAction.XDP_PASS
@@ -38,7 +38,7 @@ def test_xdp_filter_pass_allowed_traffic():
 def test_xdp_filter_drop_unauthorized_ip():
     """Validates Ring-0 packet drop on unauthorized destination IP."""
     filter_driver = XDPEgressFilter(allowed_ips=["127.0.0.1"], allowed_ports=[8080])
-    unauthorized_packet = filter_driver.create_mock_packet(
+    unauthorized_packet = filter_driver.create_raw_packet(
         dest_ip="198.51.100.1", dest_port=8080, payload=b"EGRESS_LEAK"
     )
 
@@ -53,7 +53,7 @@ def test_xdp_filter_drop_unauthorized_ip():
 def test_xdp_filter_drop_unauthorized_port():
     """Validates Ring-0 packet drop on unauthorized destination port."""
     filter_driver = XDPEgressFilter(allowed_ips=["127.0.0.1"], allowed_ports=[8080])
-    unauthorized_port_packet = filter_driver.create_mock_packet(
+    unauthorized_port_packet = filter_driver.create_raw_packet(
         dest_ip="127.0.0.1", dest_port=443, payload=b"UNAUTHORIZED_PORT"
     )
 
@@ -69,7 +69,8 @@ def test_xdp_filter_dynamic_map_mutation():
     """Validates live mutation of BPF hash maps for IPs and ports."""
     filter_driver = XDPEgressFilter(allowed_ips=["127.0.0.1"], allowed_ports=[8080])
 
-    packet_new_ip = filter_driver.create_mock_packet(dest_ip="10.0.0.5", dest_port=8080)
+    packet_new_ip = filter_driver.create_raw_packet(dest_ip="10.0.0.5", dest_port=8080)
+
     # Initially blocked
     action, _ = filter_driver.inspect_packet(packet_new_ip)
     assert action == XDPAction.XDP_DROP

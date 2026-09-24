@@ -178,9 +178,9 @@ class StressFuzzer10K:
             sc_type = item["type"]
             scenario_counts[sc_type] += 1
 
-            # 1. Zero-Egress Ring-0 Packet Check
-            # Synthetic frame targeting 127.0.0.1:8080 (must PASS)
-            pkt = self.xdp_filter.create_mock_packet("127.0.0.1", 8080, payload=b"WIRE_TX")
+            # Raw wire frame targeting 127.0.0.1:8080 (must PASS)
+            pkt = self.xdp_filter.create_raw_packet("127.0.0.1", 8080, payload=b"WIRE_TX")
+
             action, _ = self.xdp_filter.inspect_packet(pkt)
             if action != XDPAction.XDP_PASS:
                 overclaims += 1
@@ -228,8 +228,9 @@ class StressFuzzer10K:
         # Inject and drop 100 unauthorized external probes to assert hard Ring-0 dropping
         egress_probes_dropped = 0
         for _ in range(100):
-            unauth_pkt = self.xdp_filter.create_mock_packet("198.51.100.25", 443, payload=b"LEAK_ATTEMPT")
+            unauth_pkt = self.xdp_filter.create_raw_packet("198.51.100.25", 443, payload=b"LEAK_ATTEMPT")
             drop_action, _ = self.xdp_filter.inspect_packet(unauth_pkt)
+
             if drop_action == XDPAction.XDP_DROP:
                 egress_probes_dropped += 1
 
