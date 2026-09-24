@@ -21,7 +21,15 @@ except ImportError:
     except ImportError:
         anchor_cose_envelope_to_file = None
 
-def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool = False, anchor: bool = True):
+try:
+    from src.pqc_mldsa import HybridSigner
+except ImportError:
+    try:
+        from pqc_mldsa import HybridSigner
+    except ImportError:
+        HybridSigner = None
+
+def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool = False, anchor: bool = True, enable_pqc: bool = True):
     with open(passport_path, 'r') as f:
         data = json.load(f)
         
@@ -29,13 +37,15 @@ def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool 
     private_key = ed25519.Ed25519PrivateKey.generate()
     signature = private_key.sign(canonical_payload)
     
+    protected_hdr = {
+        "alg": "EdDSA",
+        "crit": ["profile"],
+        "profile": "draft-ietf-scitt-architecture-04",
+        "content_type": "application/json"
+    }
+
     cose_envelope = {
-        "protected_header": {
-            "alg": "EdDSA",
-            "crit": ["profile"],
-            "profile": "draft-ietf-scitt-architecture-04",
-            "content_type": "application/json"
-        },
+        "protected_header": protected_hdr,
         "unprotected_header": {
             "kid": "did:smaos:key:behavioral_001"
         },
@@ -44,8 +54,22 @@ def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool 
         "payload": data
     }
     
+    if enable_pqc and HybridSigner is not None:
+        hybrid = HybridSigner()
+        pqc_attestation = hybrid.sign_hybrid(canonical_payload)
+        protected_hdr["crypto_suite"] = "Ed25519+ML-DSA-65-Hybrid"
+        protected_hdr["pqc_standard"] = "NIST FIPS 204"
+        cose_envelope["pqc_mldsa65"] = {
+            "algorithm": "ML-DSA-65",
+            "security_level": "NIST Level 3 / CNSA 2.0 (192-bit quantum security)",
+            "signature_base64": base64.b64encode(bytes.fromhex(pqc_attestation["mldsa65"]["signature_full_hex"])).decode('ascii'),
+            "public_key_hex": pqc_attestation["mldsa65"]["public_key_hex"],
+            "quantum_resistant_until": "2050+"
+        }
+
     with open(output_path, 'w') as f:
         json.dump(cose_envelope, f, indent=2)
+
         
     if verbose:
         print(f"[*] IETF SCITT COSE_Sign1 Envelope Generated: {output_path}", file=sys.stderr)

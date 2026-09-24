@@ -16,8 +16,10 @@ class IntentCollisionError(Exception):
 class IntentLedger:
     def __init__(self, db_path="intent_ledger.db"):
         self.db_path = db_path
-        self.conn = sqlite3.connect(db_path)
+        self.conn = sqlite3.connect(db_path, timeout=30.0, check_same_thread=False)
         self.cursor = self.conn.cursor()
+        self.cursor.execute("PRAGMA journal_mode = WAL;")
+        self.cursor.execute("PRAGMA synchronous = NORMAL;")
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS intents (
                 id TEXT PRIMARY KEY,

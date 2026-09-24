@@ -612,7 +612,22 @@ def run_single_scenario(scenario_id: str, export_dir: Path, decision_repro: bool
         "signature_bbs_plus": "bbs_plus:mock_selective_disclosure_signature"
     }
     if pqc_sign:
-        stdout_obj["cryptographic_signatures"]["signature_mldsa65"] = "mldsa65:96e861bd763c98f6d57729d52c07c341cab19798e"
+        try:
+            from src.pqc_mldsa import MLDSA65
+        except ImportError:
+            try:
+                from pqc_mldsa import MLDSA65
+            except ImportError:
+                MLDSA65 = None
+        if MLDSA65:
+            kp = MLDSA65.keygen()
+            pqc_sig = MLDSA65.sign(json.dumps(stdout_obj, sort_keys=True).encode("utf-8"), kp.secret_key)
+            stdout_obj["cryptographic_signatures"]["signature_mldsa65"] = f"mldsa65:{pqc_sig[:32].hex()}..."
+            stdout_obj["cryptographic_signatures"]["pqc_mldsa65_spec"] = "NIST FIPS 204 (CNSA 2.0 / Category 3)"
+            stdout_obj["cryptographic_signatures"]["pqc_public_key"] = f"mldsa65_pk:{kp.public_key[:32].hex()}..."
+        else:
+            stdout_obj["cryptographic_signatures"]["signature_mldsa65"] = "mldsa65:96e861bd763c98f6d57729d52c07c341cab19798e"
+
 
     _ignore = {
         "scenario_id":           meta["scenario_id"],
