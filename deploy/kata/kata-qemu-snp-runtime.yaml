@@ -1,0 +1,15 @@
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: kata-qemu-snp
+  labels:
+    confidential-computing: "amd-sev-snp"
+    governance.smaos.ai/membrane: "hardware-enclave"
+handler: kata-qemu-snp
+scheduling:
+  nodeSelector:
+    feature.node.kubernetes.io/cpu-cpuid.SEV_SNP: "true"
+overhead:
+  podFixed:
+    memory: "512Mi"
+    cpu: "250m"

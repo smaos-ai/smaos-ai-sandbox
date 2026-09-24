@@ -8,7 +8,7 @@
   ],
   "credentialSubject": {
     "identity": {
-      "agent_id": null
+      "agent_id": "did:smaos:agent-treasury-001"
     },
     "overclaim_rate_detected": 0.0,
     "negative_state_assertions": [
@@ -20,7 +20,7 @@
   },
   "proof": {
     "type": "BbsBlsSignatureProof2020",
-    "proofValue": "bbs_proof_15767d96615d347d",
+    "proofValue": "bbs12381_sha384_proof:a3bf99361edd4983f7f44b234ce00a89cbdef9152482d249ae8cd8377415a21ddf7f556890df60f1e080d1899b0fdd63",
     "revealed_fields": [
       "identity",
       "overclaim_rate_detected",

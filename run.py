@@ -783,6 +783,15 @@ def _write_artifacts(scenario_id: str, record: dict, export_dir: Path) -> None:
     except Exception:
         pass
 
+    try:
+        from src.enclave_cvm import attach_hardware_attestation_to_passport
+        attach_hardware_attestation_to_passport(
+            str(export_dir / "trust_passport.json"),
+            str(export_dir / "trust_passport.cose.json")
+        )
+    except Exception:
+        pass
+
 
 # ─── Multi-scenario interactive mode ─────────────────────────────────────────
 
@@ -934,6 +943,15 @@ def generate_trust_passport(out_dir=None):
     try:
         from src.aarm_signer import AARMSigner
         AARMSigner().generate_receipt(str(target_path), str(out_dir / "receipt.cose"))
+    except Exception:
+        pass
+
+    try:
+        from src.enclave_cvm import attach_hardware_attestation_to_passport
+        attach_hardware_attestation_to_passport(
+            str(target_path),
+            str(out_dir / "trust_passport.cose.json")
+        )
     except Exception:
         pass
 

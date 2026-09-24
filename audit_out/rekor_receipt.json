@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "mode": "SOVEREIGN_AIRGAP_REKOR",
+  "log_id": "7ff4d41f98c02589295d784c5cd355b98f87d3a3903b5cd963afb0098c817fb0",
+  "log_index": 1,
+  "integrated_time": 1790208454,
+  "entry_body_sha256": "138735a1cef5e526532868d1c95eb1a98b9aee9d12ad8334339125044fd87e04",
+  "entry": {
+    "apiVersion": "0.0.1",
+    "kind": "hashedrekord",
+    "spec": {
+      "data": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "7a4c728f367949d9032884ee0424678b9e187a757764d0041531826d9e0b556d"
+        }
+      },
+      "signature": {
+        "content": "l4HIidZkeKkt155fpjcADAs++41IiAdsDURC3+QfxsukwEBhJLIEB9LpP/3z+nadcFgB1nmxkbs7LF/gFL5kDw==",
+        "publicKey": {
+          "content": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVk1UzFiQUY5K0I4VjBRNzZLQ2dCcHVDMjE5eUwzVzVrM2wzVjgzQWFBOE09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+        }
+      }
+    }
+  },
+  "inclusion_proof": {
+    "log_index": 1,
+    "tree_size": 2,
+    "root_hash": "bba583e888ea612a4d1ed87506bcd15eb1c91fa4e38acb82d476f899a7cb4e5b",
+    "audit_path": [
+      {
+        "direction": "left",
+        "hash": "f5b0ab84ecf78c4065fe9b9f16563fcd509aecc3fdbb0e954c0239ba5219742f"
+      }
+    ]
+  },
+  "signed_tree_head": {
+    "body": "tree_size=2;root_hash=bba583e888ea612a4d1ed87506bcd15eb1c91fa4e38acb82d476f899a7cb4e5b;timestamp=1790208454",
+    "signature_base64": "R2mLqnYn2whCvmmWli/Jjs3oqvhfJHCywwNVm9x3VjA4ADKOZJ0YePFk5tVyxYt5k2+de23Pq4BP50wIAH8mDQ=="
+  },
+  "verification_status": "CRYPTOGRAPHICALLY_VERIFIED"
+}

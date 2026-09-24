@@ -9,7 +9,7 @@
 - **Authority Ceiling Enforced:** True
 
 ## Authority
-- **Permitted Operations:** POST /v1/settle, GET /v1/status
+- **Permitted Operations:** POST /v1/settle, GET /v1/status, payments.execute
 - **Rejected Paths:** 2
 
 ## Negative State Assertions

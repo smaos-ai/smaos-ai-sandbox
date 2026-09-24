@@ -12,3 +12,5 @@ env/
 venv/
 audit_out_verify/
 target/
+build/
+

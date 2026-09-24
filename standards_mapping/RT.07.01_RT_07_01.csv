@@ -1,0 +1,2 @@
+ContractRef,DataAtRestLocation,DataInTransitLocation,CloudModel,EncryptionAlgorithm
+CTR-SMAOS-2026-PILOT-01,IT,LOCAL_LOOPBACK_127_0_0_1,ON_PREMISE_AIR_GAP,RFC8785_JCS_ED25519

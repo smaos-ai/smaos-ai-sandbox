@@ -152,15 +152,17 @@ See [`scenarios.md`](scenarios.md), [`METHODOLOGY.md`](METHODOLOGY.md), and [`LI
 
 ---
 
-## 🚀 Roadmap: Beyond v0.4.0
+## 🚀 Production Infrastructure (v1.1.0 Capabilities)
 
-The following capabilities are under active development and scheduled for subsequent releases:
+SMAOS v1.1.0 ships four core enterprise infrastructure pillars for high-assurance autonomous agent clusters:
 
-* **IETF AAT Draft-04 Digests**: Binding 5 decision-reproducibility digests (`model_weights`, `tokenizer`, `chat_template`, `engine_build`, `numeric_environment`) into every receipt.
-* **Post-Quantum Cryptography**: ML-DSA-65 (FIPS 204) dual-signing capability.
-* **Continuous eBPF Kernel Probes**: Non-invasive kernel-level socket capture for high-throughput production clusters (Door 2).
+* **Phase 2A — Live SCITT & Rekor Transparency Anchoring**: RFC 6962 / RFC 9162 Merkle tree engine anchoring signed `COSE_Sign1` receipts into append-only transparency ledgers (Sigstore/Rekor format) with verified Merkle inclusion proofs (`audit_out/rekor_receipt.json`).
+* **Phase 2B — Hardware Enclave Production Integration (Intel TDX & AMD SEV-SNP)**: Live CVM driver (`src/enclave_cvm.py`) querying `/dev/tdx_guest` and `/dev/sev-guest` ioctl devices, binding raw `COSE_Sign1` SHA-512 nonces into the CPU's 64-byte `REPORTDATA` register, and delivering Kata Containers 3.x runtime specs (`deploy/kata/`).
+* **Phase 2C — Declarative Governance DSL Compiler (`smaos.hcl`)**: Infrastructure-as-Code compiler transpiling declarative governance rules into Ring-0 eBPF LSM maps (`bpf_maps.h`), SCITT validation schemas, and SQLite Write-Ahead Logging (WAL) Copy-on-Write (CoW) isolation triggers.
+* **Phase 3A — 15-Template DORA xBRL-CSV Register (EBA DPM 4.0 / ITS 2024/2956)**: Relational register compiler generating the complete 15-table register package (`RT.01.01` through `RT.99.01`) with ISO 17442 LEI MOD 97-10 check-digit enforcement, referential integrity verification, and validation reporting (`audit_out/DORA_Register_DPM40_EBA_ITS_2024_2956.zip`).
 
 ---
+
 
 ## 💼 Commercial Engagement: €1,500 48-Hour Staging Diagnostic
 

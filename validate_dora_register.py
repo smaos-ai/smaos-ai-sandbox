@@ -49,7 +49,18 @@ def compile_register():
         print("  • RT.01.03 Vendor Identification: OK (Zero-Egress Containment Model)")
         print("  • RT.02.01 Service Classification: OK (ProofOrStopFilter Containment)")
 
-    # 2. Output DPM 4.0 conformant table stream
+    # 2. Compile full 15-template EBA DPM 4.0 / ITS 2024/2956 xBRL-CSV Register
+    try:
+        from src.dora_xbrl_compiler import compile_and_validate_dora_package
+        zip_pkg, rep = compile_and_validate_dora_package(
+            output_dir=str(STANDARDS_DIR),
+            zip_path=str(ROOT / "audit_out" / "DORA_Register_DPM40_EBA_ITS_2024_2956.zip")
+        )
+        print(f"  • Full 15-Template xBRL-CSV Package: OK ({zip_pkg.name})")
+    except Exception as e:
+        print(f"  • Warning on 15-template package: {e}")
+
+    # 3. Output DPM 4.0 conformant table stream
     writer = csv.writer(sys.stdout)
     writer.writerow(["RowId", "ContractRef", "ICTServiceType", "CriticalOrImportant"])
     writer.writerow(["R0010", "CTR-2026-991", "Agentic API Orchestration", "TRUE"])

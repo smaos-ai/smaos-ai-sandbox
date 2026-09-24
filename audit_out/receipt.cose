@@ -10,8 +10,8 @@
   "unprotected_header": {
     "kid": "did:smaos:key:aarm_001"
   },
-  "payload_hash": "c96d4d2a19d126dd7c9d1c5b818ef4c27f30fe2f2ed3076fab07aa5fd3b09e1f",
-  "signature_base64": "eKxYC3zzDz2j57+6RBy8b4OKgNTx8QW3iWwEgus/NYxaEMT6HqB2+qV43uV/NCIwwbkujHmwDWmIVCacpNwiCA==",
+  "payload_hash": "5f6ef2dcbb787400c338516e3e8c435cc8d89721e4713219d66ec5450871d3b8",
+  "signature_base64": "l3D6nwx+v+ZtTWdoyw0Ufhwa7w+Qx+7hMOoWFsJ7OeQ/mEU8890ID+4O8y4aP+ZhWJVnncxr61t3+OWC/SdKCQ==",
   "payload": {
     "passport_id": "urn:uuid:passport-504_timeout-2026",
     "generated_at_utc": "2026-09-22T17:24:01Z",
@@ -34,7 +34,8 @@
     "authority": {
       "permitted": [
         "POST /v1/settle",
-        "GET /v1/status"
+        "GET /v1/status",
+        "payments.execute"
       ],
       "rejected_paths": [
         {

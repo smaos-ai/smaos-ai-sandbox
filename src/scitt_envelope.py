@@ -13,7 +13,15 @@ try:
 except ImportError:
     from canonicalizer import canonicalize
 
-def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool = False):
+try:
+    from src.scitt_anchor import anchor_cose_envelope_to_file
+except ImportError:
+    try:
+        from scitt_anchor import anchor_cose_envelope_to_file
+    except ImportError:
+        anchor_cose_envelope_to_file = None
+
+def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool = False, anchor: bool = True):
     with open(passport_path, 'r') as f:
         data = json.load(f)
         
@@ -42,5 +50,16 @@ def generate_scitt_envelope(passport_path: str, output_path: str, verbose: bool 
     if verbose:
         print(f"[*] IETF SCITT COSE_Sign1 Envelope Generated: {output_path}", file=sys.stderr)
 
+    if anchor and anchor_cose_envelope_to_file is not None:
+        receipt_path = "audit_out/rekor_receipt.json"
+        try:
+            anchor_cose_envelope_to_file(output_path, receipt_path)
+            if verbose:
+                print(f"[*] Rekor / SCITT Inclusion Proof Anchored: {receipt_path}", file=sys.stderr)
+        except Exception as e:
+            if verbose:
+                print(f"[!] Warning: Notarization error: {e}", file=sys.stderr)
+
 if __name__ == "__main__":
     generate_scitt_envelope("audit_out/trust_passport.json", "audit_out/trust_passport.cose.json", verbose=True)
+

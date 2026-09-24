@@ -1,4 +1,4 @@
-.PHONY: all setup test verify run-audit soak clean
+.PHONY: all setup test verify run-audit soak compile-hcl dora-xbrl clean
 
 all: test verify
 
@@ -12,6 +12,12 @@ verify:
 	./verify.sh
 	./bin/verify.sh
 
+compile-hcl:
+	python3 -m src.hcl_compiler.cli smaos.hcl --out-dir build/governance
+
+dora-xbrl:
+	python3 src/dora_xbrl_compiler.py
+
 run-audit:
 	python3 run.py --scenario 504_timeout --export-dir ./audit_out
 
@@ -19,4 +25,4 @@ soak:
 	python3 production_soak_test.py
 
 clean:
-	rm -rf audit_out/* audit_out_verify/* .pytest_cache __pycache__ *.pyc
+	rm -rf audit_out/* audit_out_verify/* build/* .pytest_cache __pycache__ *.pyc
