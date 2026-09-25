@@ -1,0 +1,23 @@
+{
+  "name": "SMAOS Sovereign Zero-Egress Auditor",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python3",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "tamasfe.even-better-toml",
+        "bierner.markdown-mermaid"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt && pip install pytest && make verify",
+  "remoteUser": "vscode"
+}
