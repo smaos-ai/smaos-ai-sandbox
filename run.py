@@ -994,8 +994,10 @@ def main():
     )
     parser.add_argument("--decision-repro", action="store_true", help="Include AAT draft-03 hashes")
     parser.add_argument("--pqc-sign", action="store_true", help="Include ML-DSA-65 post-quantum signature")
-    parser.add_argument("--enable-scitt-cose", action="store_true", help="Enable SCITT COSE_Sign1 notarization")
-    parser.add_argument("--enable-bbs", action="store_true", help="Enable BBS+ selective disclosure proofs")
+    parser.add_argument("--scitt-sign", action="store_true", help="Include SCITT COSE_Sign1 notarization")
+    parser.add_argument("--bbs-sign", action="store_true", help="Include BBS+ selective disclosure proofs")
+    parser.add_argument("--hw-attest", action="store_true", help="Include hardware enclave attestation quote")
+    parser.add_argument("--generate-zk-proof", action="store_true", help="Generate zero-knowledge proof of compliance")
     args = parser.parse_args()
     out_dir = Path(args.export_dir)
 

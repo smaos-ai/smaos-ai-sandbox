@@ -30,12 +30,17 @@ from src.intent_ledger import IntentLedger
 
 
 class WireDisposition(str, enum.Enum):
-    CONFIRMED = "CONFIRMED"
-    REFUSED = "REFUSED"
-    DISPATCHED_UNCONFIRMED = "DISPATCHED_UNCONFIRMED"
-    QUARANTINED_UNCONFIRMED = "QUARANTINED_UNCONFIRMED"
-    INVALID_INPUT = "INVALID_INPUT"
-    UNKNOWN = "UNKNOWN"
+    NEVER_DISPATCHED = "never_dispatched"
+    DISPATCHED_UNCONFIRMED = "dispatched_unconfirmed"
+    REMOTE_CONFIRMED = "remote_confirmed"
+    REMOTE_REFUSED = "remote_refused"
+    LOCALLY_BLOCKED = "locally_blocked"
+    REFUSED = "remote_refused"
+    QUARANTINED_UNCONFIRMED = "quarantined_unconfirmed"
+    INVALID_INPUT = "invalid_input"
+    UNKNOWN = "unknown"
+    CONFIRMED = "remote_confirmed"
+
 
 
 @dataclass
@@ -58,113 +63,63 @@ UNKNOWN_STATUS_CODES = {500, 502, 503, 504}
 REFUSED_STATUS_CODES = {401, 403, 409, 422, 429}
 
 
+
+
+
 def classify_wire_event(
-    http_status: Optional[int] = None,
-    socket_error: Optional[Exception] = None,
-    request_bytes_written: int = 0,
+    *,
+    policy_blocked: bool = False,
+    request_bytes_written: bool = False,
+    authoritative_receipt: bool = False,
+    response_status: int | None = None,
+    transport_error: str | None = None,
+    http_status: int | None = None,
+    socket_error: Exception | None = None,
     response_bytes_read: int = 0,
     has_valid_body: bool = False
 ) -> WireObservation:
-    """Classifies wire truth strictly from socket bytes and protocol indicators."""
-    
-    # 1. Transport Socket Errors
+    if http_status is not None:
+        response_status = http_status
     if socket_error is not None:
-        err_name = type(socket_error).__name__
-        err_msg = str(socket_error)
+        transport_error = str(socket_error)
         
-        # If bytes were written before socket failure, server may have executed transaction!
-        if request_bytes_written > 0:
-            return WireObservation(
-                disposition=WireDisposition.DISPATCHED_UNCONFIRMED,
-                http_status=http_status,
-                error_type=err_name,
-                error_message=err_msg,
-                request_bytes_written=request_bytes_written,
-                response_bytes_read=response_bytes_read,
-                dispatched=True,
-                quarantined=True,
-                reason=f"Post-write disconnect ({request_bytes_written} bytes written): state unconfirmed"
-            )
-        else:
-            return WireObservation(
-                disposition=WireDisposition.UNKNOWN,
-                http_status=http_status,
-                error_type=err_name,
-                error_message=err_msg,
-                request_bytes_written=0,
-                response_bytes_read=0,
-                dispatched=False,
-                quarantined=False,
-                reason="Pre-write connection failure: wire dispatch aborted"
-            )
+    disposition = WireDisposition.DISPATCHED_UNCONFIRMED
+    if policy_blocked:
+        disposition = WireDisposition.LOCALLY_BLOCKED
+    elif authoritative_receipt:
+        disposition = WireDisposition.CONFIRMED
+    elif not request_bytes_written:
+        disposition = WireDisposition.NEVER_DISPATCHED
+    elif response_status in {400, 401, 403, 404, 409, 422, 429}:
+        disposition = WireDisposition.REFUSED
+    elif response_status == 504:
+        disposition = WireDisposition.DISPATCHED_UNCONFIRMED
+    elif response_status is not None and 200 <= response_status < 300:
+        disposition = WireDisposition.CONFIRMED
+    elif transport_error in {
+        "timeout_after_write",
+        "connection_reset_after_write",
+        "tls_disconnect_after_write",
+        "response_parse_failure_after_write",
+    }:
+        disposition = WireDisposition.DISPATCHED_UNCONFIRMED
+    elif socket_error is not None and request_bytes_written:
+        disposition = WireDisposition.DISPATCHED_UNCONFIRMED
+    elif socket_error is not None and not request_bytes_written:
+        disposition = WireDisposition.UNKNOWN
+    elif response_status in (500, 502, 503):
+        disposition = WireDisposition.DISPATCHED_UNCONFIRMED if request_bytes_written else WireDisposition.UNKNOWN
 
-    # 2. HTTP 504 Gateway Timeout or Gateway Fault
-    if http_status == 504:
-        return WireObservation(
-            disposition=WireDisposition.DISPATCHED_UNCONFIRMED,
-            http_status=504,
-            error_type="HTTP_504_TIMEOUT",
-            error_message="Gateway Timeout: upstream upstream did not acknowledge completion",
-            request_bytes_written=request_bytes_written,
-            response_bytes_read=response_bytes_read,
-            dispatched=True,
-            quarantined=True,
-            reason="HTTP 504: request dispatched, remote side-effects unconfirmed (quarantined)"
-        )
-
-    # 3. HTTP 500, 502, 503 Internal Server Error
-    if http_status in (500, 502, 503):
-        return WireObservation(
-            disposition=WireDisposition.DISPATCHED_UNCONFIRMED if request_bytes_written > 0 else WireDisposition.UNKNOWN,
-            http_status=http_status,
-            error_type=f"HTTP_{http_status}_FAULT",
-            error_message=f"Server returned transient fault {http_status}",
-            request_bytes_written=request_bytes_written,
-            response_bytes_read=response_bytes_read,
-            dispatched=request_bytes_written > 0,
-            quarantined=request_bytes_written > 0,
-            reason=f"HTTP {http_status}: server error under uncertain state"
-        )
-
-    # 4. Explicit Policy Refusals (4xx)
-    if http_status in REFUSED_STATUS_CODES:
-        return WireObservation(
-            disposition=WireDisposition.REFUSED,
-            http_status=http_status,
-            error_type="HTTP_POLICY_REFUSAL",
-            error_message=f"Remote endpoint explicitly refused action with HTTP {http_status}",
-            request_bytes_written=request_bytes_written,
-            response_bytes_read=response_bytes_read,
-            dispatched=True,
-            quarantined=False,
-            reason=f"HTTP {http_status}: deterministic remote policy refusal"
-        )
-
-    # 5. Success (2xx)
-    if http_status is not None and 200 <= http_status < 300:
-        return WireObservation(
-            disposition=WireDisposition.CONFIRMED,
-            http_status=http_status,
-            error_type=None,
-            error_message=None,
-            request_bytes_written=request_bytes_written,
-            response_bytes_read=response_bytes_read,
-            dispatched=True,
-            quarantined=False,
-            reason=f"HTTP {http_status}: verified round-trip acknowledgment"
-        )
-
-    # 6. Fallback / Unrecognized status
     return WireObservation(
-        disposition=WireDisposition.INVALID_INPUT,
-        http_status=http_status,
-        error_type="UNRECOGNIZED_PROTOCOL_STATE",
-        error_message=f"Received unrecognized HTTP status {http_status}",
-        request_bytes_written=request_bytes_written,
+        disposition=disposition,
+        http_status=response_status,
+        error_type=transport_error,
+        error_message=transport_error,
+        request_bytes_written=1 if request_bytes_written else 0,
         response_bytes_read=response_bytes_read,
-        dispatched=request_bytes_written > 0,
-        quarantined=True,
-        reason=f"Unrecognized response status: {http_status}"
+        dispatched=request_bytes_written,
+        quarantined=(disposition == WireDisposition.DISPATCHED_UNCONFIRMED),
+        reason=str(transport_error) if transport_error else "ok"
     )
 
 

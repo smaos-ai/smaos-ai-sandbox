@@ -22,7 +22,7 @@ def test_gliner2_advisory_isolation():
         transport_error=None
     )
     
-    assert obs == WireDisposition.DISPATCHED_UNCONFIRMED
+    assert obs.disposition == WireDisposition.DISPATCHED_UNCONFIRMED
     
     # 2. Advisory enrichment is invoked (Simulated)
     # The extractor parses the raw error, but we strictly prove it cannot alter the disposition variable.
@@ -38,5 +38,5 @@ def test_gliner2_advisory_isolation():
     
     final_disposition = obs
     # Prove that the diagnostic output didn't, and structurally couldn't, change the disposition type
-    assert final_disposition == WireDisposition.DISPATCHED_UNCONFIRMED
+    assert final_disposition.disposition == WireDisposition.DISPATCHED_UNCONFIRMED
     

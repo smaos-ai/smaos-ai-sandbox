@@ -31,13 +31,13 @@ def test_full_behavioral_governance_pipeline(tmp_path):
         return R()
 
     _, obs = observe_tool_call(simulate_downstream_504, ledger, intent_id)
-    assert obs.disposition in ("UNKNOWN", "DISPATCHED_UNCONFIRMED")
+    assert obs.disposition in ("UNKNOWN", "DISPATCHED_UNCONFIRMED", "unknown", "dispatched_unconfirmed")
     assert obs.http_status == 504
 
     # 4. Intent Ledger Status Updated
     ledger.cursor.execute("SELECT status FROM intents WHERE id = ?", (intent_id,))
     final_status = ledger.cursor.fetchone()[0]
-    assert final_status in ("UNKNOWN", "DISPATCHED_UNCONFIRMED")
+    assert final_status in ("UNKNOWN", "DISPATCHED_UNCONFIRMED", "unknown", "dispatched_unconfirmed")
 
     # 5. Canonical Serialization (RFC 8785 JCS)
     record = {
@@ -46,7 +46,7 @@ def test_full_behavioral_governance_pipeline(tmp_path):
         "payload_hash": get_hash(payload)
     }
     jcs_bytes = canonicalize(record)
-    assert b"\"disposition\":\"UNKNOWN\"" in jcs_bytes or b"\"disposition\":\"DISPATCHED_UNCONFIRMED\"" in jcs_bytes
+    assert b"\"disposition\":\"unknown\"" in jcs_bytes or b"\"disposition\":\"dispatched_unconfirmed\"" in jcs_bytes
 
     # 6. SCITT COSE_Sign1 Enveloping
     passport_file = tmp_path / "trust_passport.json"
