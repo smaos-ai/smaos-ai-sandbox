@@ -1,0 +1,11 @@
+# Sovereign Zero-Trust Pre-Commit Configuration
+# Blocks mock cryptography, commercial outreach, SOWs, and pricing leaks locally before git commit
+repos:
+  - repo: local
+    hooks:
+      - id: sovereign-guard
+        name: 🛡️ Sovereign Zero-Trust Guard
+        entry: python3 scripts/sovereign_guard.py
+        language: system
+        types: [file]
+        pass_filenames: true

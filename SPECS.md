@@ -1,6 +1,6 @@
 # 🏛️ SMAOS - Final Scope Lock (v0.1.0)
 
-This document defines the absolute, verified, and shippable scope for the v0.1.0 release. It establishes the technical boundaries, regulatory mappings, and commercial engagement tiers.
+This document defines the absolute, verified, and shippable scope for the v0.1.0 release. It establishes the technical boundaries, regulatory mappings, and deployment modes.
 
 ---
 
