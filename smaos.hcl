@@ -1,7 +1,22 @@
 system "smaos_governance" {
-  version = "1.0.0"
+  version = "1.1.0-production"
   egress_mode = "zero_egress"
   enforcement = "fail_closed"
+}
+
+tcb_enforcement_plane "strict" {
+  jcs_digest_matching = true
+  sqlite_nonce_ledger = true
+  wire_observer_deterministic = true
+  require_merkle_proof = true
+  bpf_lsm_drop = true
+}
+
+advisory_enrichment_plane "diagnostic" {
+  allow_gliner2_autoextractor = true
+  allow_clm_offline_rank = true
+  # INVARIANT: Models cannot upgrade transport dispositions
+  override_wire_state = false
 }
 
 agent "payment_agent" {
@@ -9,14 +24,12 @@ agent "payment_agent" {
   max_transaction_value = 1000000.00
   allowed_currencies = ["EUR", "USD"]
   collision_avoidance = "foremerge_strict"
-  disposition_fail_closed = "UNKNOWN"
+  disposition_fail_closed = "QUARANTINED_UNCONFIRMED"
 }
 
 network_boundary "local_mesh" {
   allowed_ports = [8079, 8080, 8081]
-  bpf_lsm_drop = true
   drop_icmp = true
-  max_ingress_rate_kbps = 10000
 }
 
 isolation "sqlite_wal" {
@@ -29,6 +42,4 @@ isolation "sqlite_wal" {
 scitt_policy "eu_ai_act_art12" {
   profile = "draft-ietf-scitt-architecture-04"
   allowed_algs = ["EdDSA", "ES256"]
-  require_merkle_proof = true
-  min_tcb_svn = 4
 }
