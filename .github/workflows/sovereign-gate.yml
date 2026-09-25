@@ -39,7 +39,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: 🛡️ Stage 2: Sovereign Zero-Trust Guard (Path & Content Inspector)
+      - name: 🛡️ Stage 2: Sovereign Zero-Trust Guard (Path, AST & Content Inspector)
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             git fetch origin main --depth=1
@@ -55,6 +55,14 @@ jobs:
             python3 scripts/sovereign_guard.py
           fi
 
-      - name: 🧪 Stage 3: Pytest Verification Suite
+      - name: 🔒 Stage 3: Bytecode & Binary Checksum Verification
+        run: |
+          python3 scripts/verify_checksums.py
+
+      - name: 🧪 Stage 4: Pytest & 0-Byte Airgap Verification Suite
         run: |
           pytest tests/ -v --tb=short
+
+      - name: ⚡ Stage 5: Isolated Ring-0 Kernel Physics Driver Suite
+        run: |
+          pytest tests/kernel/ -v --tb=short

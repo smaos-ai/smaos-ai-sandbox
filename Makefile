@@ -1,12 +1,18 @@
-.PHONY: all setup test verify run-audit soak compile-hcl dora-xbrl clean
+.PHONY: all setup test test-kernel verify verify-checksums run-audit soak compile-hcl dora-xbrl clean
 
-all: test verify
+all: verify-checksums test test-kernel verify
 
 setup:
 	pip install -r requirements.txt -r requirements-dev.txt
 
 test:
 	python3 -m pytest tests/ -v
+
+test-kernel:
+	python3 -m pytest tests/kernel/ -v
+
+verify-checksums:
+	python3 scripts/verify_checksums.py
 
 verify:
 	./verify.sh

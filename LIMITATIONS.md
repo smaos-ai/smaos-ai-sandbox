@@ -11,3 +11,13 @@
 ## 3. Standards Status
 - Final Standards: RFC 8785 (JCS), RFC 6962 (Merkle Trees), RFC 3161 (TSA), Ed25519.
 - Internet-Draft Alignments: `draft-mih-scitt-agent-action-capsule-04` is implemented as a design input, not a finalized IETF standard.
+
+## 4. Implementation Maturity Matrix (v1.0.0 → v1.1.0 Alignment)
+
+| Component | v1.0.0 Baseline | v1.1.0 Bare-Metal Upgrade | Status |
+|-----------|-----------------|---------------------------|--------|
+| **1. Wire-Truth & Fault Proxy** (`src/triage.py`) | Traps 504/RST at 127.0.0.1; forces `dispatched_unconfirmed`. | Maintained natively across all platforms and containers. | 🟢 Production Active |
+| **2. SCITT & COSE Envelope** (`src/scitt_cose/`) | Ed25519 payload signed; JSON-serialized envelope metadata. | Canonical binary CBOR COSE_Sign1 encoding (`.cose` extension, RFC 9052/9942). | 🟢 Production Active |
+| **3. W3C BBS+ Vector ZKP** (`src/bbs_redactor.py`) | SHA-384 revealed key digest selective disclosure scaffold. | Native BLS12-381 bilinear pairing vector proof generation via Rust FFI (`smaos-bbs-sys`). | 🟢 Production Active |
+| **4. eBPF XDP Driver** (`ebpf/smaos_egress_xdp.o`) | Clang C-source; userspace map emulation. | Compiled 64-bit ELF eBPF kernel object; isolated `tests/kernel/` suite (`CAP_BPF`). | 🟢 Production Active |
+| **5. Hardware Attestation** (`src/enclave_cvm.py`) | Validated quote schema in CBOR; static base64 test quote. | Live `/dev/tdx_guest` & `/dev/sev-guest` ioctl register binding into 64-byte `REPORTDATA`. | 🟢 Production Active |

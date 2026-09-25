@@ -1,0 +1,13 @@
+{
+  "schema": "https://smaos.org/schemas/v1/airgap-telemetry-receipt.json",
+  "session_id": "airgap-1790298750",
+  "start_time": "2026-09-25T01:12:30Z",
+  "verification_time": "2026-09-25T01:12:30Z",
+  "external_bytes_transmitted": 0,
+  "external_connections_blocked": 0,
+  "loopback_connections_allowed": 0,
+  "loopback_bytes_transmitted": 0,
+  "blocked_egress_attempts": [],
+  "disposition": "CONFIRMED_ZERO_EGRESS",
+  "status": "AIRGAP_INTACT"
+}

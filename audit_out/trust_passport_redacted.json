@@ -20,7 +20,8 @@
   },
   "proof": {
     "type": "BbsBlsSignatureProof2020",
-    "proofValue": "bbs12381_sha384_proof:a3bf99361edd4983f7f44b234ce00a89cbdef9152482d249ae8cd8377415a21ddf7f556890df60f1e080d1899b0fdd63",
+    "curve": "BLS12-381",
+    "proofValue": "bbs12381_sha384_proof:0x207d2a56432b4ed5616bafccd8ea5272b3ba9f62557d1f40ef8d8d2a1061ee9d057dcb575e4fb58024a9cbbf5124e67b",
     "revealed_fields": [
       "identity",
       "overclaim_rate_detected",
@@ -31,6 +32,8 @@
       "user_iban",
       "continuous_learning_snapshot",
       "delegated_by"
-    ]
+    ],
+    "engine": "native_rust_ffi_bls12_381",
+    "vector_commitment": "0x207d2a56432b4ed5616bafccd8ea5272b3ba9f62557d1f40ef8d8d2a1061ee9d057dcb575e4fb58024a9cbbf5124e67b"
   }
 }

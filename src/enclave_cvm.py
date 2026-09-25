@@ -39,6 +39,14 @@ def compute_reportdata_nonce(cose_envelope: Dict[str, Any]) -> bytes:
     canonical = json.dumps(cose_envelope, sort_keys=True).encode("utf-8")
     return hashlib.sha512(canonical).digest()
 
+def compute_cose_reportdata_nonce(cose_sign1_digest_hex: str) -> bytes:
+    """Calculates exact 64-byte REPORTDATA register binding from SHA-256(COSE_Sign1_Digest)."""
+    raw_digest = bytes.fromhex(cose_sign1_digest_hex)
+    h1 = hashlib.sha256(raw_digest).digest()
+    h2 = hashlib.sha256(h1 + b"SMAOS_CVM_TDX_REPORTDATA_V1").digest()
+    return h1 + h2
+
+
 
 class CVMHardwareEnclave:
     """Live and simulated Confidential VM Hardware Enclave manager."""
