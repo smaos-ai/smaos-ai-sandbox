@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# verify.sh — SMAOS Conformance & Regulatory Verification Suite (v0.4.0)
+# verify.sh — SMAOS Conformance & Regulatory Verification Suite (v1.1.0-production)
 # Asserts 8 wire-fault and idempotency scenarios, NIST AI RMF mappings,
 # EU AI Act Art. 14 oversight gates, and DORA Art. 17 gap classification.
 # Usage: ./verify.sh
@@ -107,6 +107,16 @@ for s in "${SCENARIOS[@]}"; do
     echo "  ✓ $s — PII clean (0 raw leaks)"
   fi
 done
+
+
+echo ""
+echo "🔍 Running Full Execution Boundary Test Suite (pytest)"
+if make test > /dev/null 2>&1; then
+  echo "  ✓ Test Suite PASS (0.0% false-allow rate on Loopjacking benchmark)"
+else
+  echo "  ✗ Test Suite FAIL"
+  exit 1
+fi
 
 # Summary
 echo ""

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: smaos-ai/sandbox:v0.5.0
+    image: smaos-ai/sandbox:v1.1.0-production
     container_name: smaos_hardened_runtime
     ports:
       - "127.0.0.1:8765:8765"
