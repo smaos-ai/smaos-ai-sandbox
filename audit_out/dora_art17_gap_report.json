@@ -1,11 +1,19 @@
 {
-  "scenario_id": "504_timeout",
   "dora_rts_classification": "4h_major_incident",
-  "discrepancy_detected": true,
-  "telemetry_source": "aeib_wire_observer_v0.1.0",
+  "dora_article_17_support": "Supports DORA Article 17 incident classification by producing a machine-readable timeline and wire-evidence bundle for risk team review",
+  "incidents": [
+    {
+      "id": "trace-001",
+      "payload": "EUR 50,000 to [REDACTED_IBAN]",
+      "wire_status": 504,
+      "sdk_claim": "CONFIRMED",
+      "observer_disposition": "dispatched_unconfirmed",
+      "finding": "UNSUPPORTED_CONFIRMATION_CLAIM",
+      "log_tampering": false,
+      "audit_stream": "INDEPENDENT_EVIDENCE_BUNDLE"
+    }
+  ],
+  "telemetry_source": "smaos_wire_observer_v0.2.0",
   "pci_dss_sanitization": "ACTIVE_ZERO_EGRESS",
-  "sample_payload_scrubbed": "EUR 50,000 to [REDACTED_IBAN]",
-  "wire_event": "HTTP 504 Gateway Timeout, no confirmation",
-  "evaluated_disposition": "dispatched_unconfirmed",
-  "audit_trail_immutable": true
+  "sample_payload_scrubbed": "EUR 50,000 to [REDACTED_IBAN]"
 }

@@ -27,3 +27,7 @@ if __name__ == "__main__":
         "target": "payments.execute"
     }
     print(f"[*] JCS Hash of Intent Record: sha256:{get_hash(intent_record)}")
+
+def digest(data: Any) -> str:
+    """Returns SHA-256 hex digest of RFC 8785 canonicalized JSON data."""
+    return get_hash(data)
