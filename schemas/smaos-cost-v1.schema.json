@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignnexus.org/schemas/smaos-cost-v1.schema.json",
+  "title": "SMAOS Cost & Governance Manifest v1",
+  "description": "Machine-readable economic and performance benchmark manifest across 7 discrete operational dimensions.",
+  "type": "object",
+  "required": [
+    "manifest_version",
+    "timestamp",
+    "target_system",
+    "dimensions",
+    "signature"
+  ],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "const": "smaos-cost-v1"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of benchmark capture."
+    },
+    "target_system": {
+      "type": "string",
+      "description": "Identifier or hash of the evaluated system/pipeline."
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "execution_latency_ms",
+        "compute_cost_usd",
+        "peak_memory_mb",
+        "network_egress_bytes",
+        "token_utilization",
+        "throughput_ops_sec",
+        "infrastructure_overhead_usd"
+      ],
+      "properties": {
+        "execution_latency_ms": {
+          "type": "number",
+          "description": "End-to-end execution latency in milliseconds."
+        },
+        "compute_cost_usd": {
+          "type": "number",
+          "description": "Direct compute/API cost per operation in USD."
+        },
+        "peak_memory_mb": {
+          "type": "number",
+          "description": "Peak resident set size (RSS) memory utilization in MB."
+        },
+        "network_egress_bytes": {
+          "type": "integer",
+          "description": "Total network egress in bytes."
+        },
+        "token_utilization": {
+          "type": "integer",
+          "description": "Total LLM/SLM tokens consumed (prompt + completion)."
+        },
+        "throughput_ops_sec": {
+          "type": "number",
+          "description": "Operations processed per second under peak load."
+        },
+        "infrastructure_overhead_usd": {
+          "type": "number",
+          "description": "Amortized fixed infrastructure overhead cost per operation."
+        }
+      }
+    },
+    "verifier_metadata": {
+      "type": "object",
+      "description": "Metadata from the offline verifier node.",
+      "properties": {
+        "node_id": { "type": "string" },
+        "environment": { "type": "string", "enum": ["airgap", "sandbox", "production"] }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["Ed25519", "ES256"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Hex-encoded cryptographic signature over the JCS-canonicalized manifest."
+        }
+      }
+    }
+  }
+}
