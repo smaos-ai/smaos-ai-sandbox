@@ -9,15 +9,15 @@ from src.dora_xbrl_compiler import (
 
 def test_iso17442_lei_validation():
     # Valid LEI with MOD 97 == 1
-    assert validate_iso17442_lei("549300TRUWO2CD2G5692") is True
+    assert validate_iso17442_lei("984500SOVEREIGN00119") is True
     assert validate_iso17442_lei("315700SOVEREIGNX0050") is True
 
     # Invalid length or characters
     assert validate_iso17442_lei("INVALID_LEI") is False
-    assert validate_iso17442_lei("549300TRUWO2CD2G5692_EXTRA") is False
+    assert validate_iso17442_lei("984500SOVEREIGN00119_EXTRA") is False
 
     # Invalid check digits
-    assert validate_iso17442_lei("549300TRUWO2CD2G5699") is False
+    assert validate_iso17442_lei("984500SOVEREIGN00199") is False
 
 def test_dora_compiler_15_templates(tmp_path):
     out_dir = tmp_path / "standards_mapping"

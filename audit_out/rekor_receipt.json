@@ -3,8 +3,8 @@
   "mode": "SOVEREIGN_AIRGAP_REKOR",
   "log_id": "7ff4d41f98c02589295d784c5cd355b98f87d3a3903b5cd963afb0098c817fb0",
   "log_index": 1,
-  "integrated_time": 1790353385,
-  "entry_body_sha256": "17448d409e7981a2de1e5f67bea425fce3fe2d91375e7240a37023d6648efa8b",
+  "integrated_time": 1790354390,
+  "entry_body_sha256": "7b2289719506fe855e800a85a2b5008e8ef2ee999eaa9fa76a36e8fdc5178bde",
   "entry": {
     "apiVersion": "0.0.1",
     "kind": "hashedrekord",
@@ -12,13 +12,13 @@
       "data": {
         "hash": {
           "algorithm": "sha256",
-          "value": "7a4c728f367949d9032884ee0424678b9e187a757764d0041531826d9e0b556d"
+          "value": "5f6ef2dcbb787400c338516e3e8c435cc8d89721e4713219d66ec5450871d3b8"
         }
       },
       "signature": {
-        "content": "FxjwGm1uTseqnbmh/6OHtGzYX1h081wxN8S8PDqNOPQLbAHLWMLrDRBJ+UD4PtNCcPMNcqhkKAVHqfeDG9K/Bg==",
+        "content": "Tu37ugll7+UPPoaCkzG2GhyCW1/Nl5sqI9CT81H+t/gx/KU0s49JFgSXBGbg7nRACmcEjK74Fk1ymDXox7uOCg==",
         "publicKey": {
-          "content": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQWdwclYySjczcmpudzZWTFk5OHF2RWFPYXhuMjQ3eUZxbm8xbXdQcjNLSTA9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
+          "content": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQTBSaW55cjhYR0ludG5YSHFTaG1VY2w4T0lIdjdLZ01SaURNNnVvbitjeEU9Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
         }
       }
     }
@@ -26,7 +26,7 @@
   "inclusion_proof": {
     "log_index": 1,
     "tree_size": 2,
-    "root_hash": "ab2b6333e1b905c3b1e510d36ba9d23589f092093e5391e43e1b2a4b58d44c23",
+    "root_hash": "eafff0f4be13d35ed9a5c6b5aa1913e5dec0bf49d23771b807739ffd07a08207",
     "audit_path": [
       {
         "direction": "left",
@@ -35,8 +35,8 @@
     ]
   },
   "signed_tree_head": {
-    "body": "tree_size=2;root_hash=ab2b6333e1b905c3b1e510d36ba9d23589f092093e5391e43e1b2a4b58d44c23;timestamp=1790353385",
-    "signature_base64": "V4163r9wqovTvS9T1jVJTvYxsQA9qIbMnyzMANnthuZ7h5SluYg5V1lQW47rKIh1BnYYHJgnWaipR6OPlZYBBQ=="
+    "body": "tree_size=2;root_hash=eafff0f4be13d35ed9a5c6b5aa1913e5dec0bf49d23771b807739ffd07a08207;timestamp=1790354390",
+    "signature_base64": "T+u+x7IVGXkBzM1OtGvf7JJXQHQA2PG1wkeKKUJAcwuc2/nG0RcMmgoD+Kso+CIbF0P4juPurhYBiIffUTGnAQ=="
   },
   "verification_status": "CRYPTOGRAPHICALLY_VERIFIED"
 }

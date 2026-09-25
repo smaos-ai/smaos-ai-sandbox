@@ -55,12 +55,12 @@ class DORAXBRLCompiler:
         self.tables: Dict[str, List[Dict[str, str]]] = {}
 
     def populate_production_dataset(self):
-        """Pre-fills full relational dataset for UniCredit S.p.A. / SovereignNexus deployment."""
-        # Valid ISO 17442 LEIs:
-        # 549300TRUWO2CD2G5692 (UniCredit S.p.A. - Verified Valid)
-        # 315700SOVEREIGNX00139 (SovereignNexus s.r.o. - Valid MOD 97)
-        # 2138006E88N3E7G8Z247 (Subcontractor Cloud Enclave - Valid MOD 97)
-        entity_lei = "549300TRUWO2CD2G5692"
+        """Pre-fills full relational dataset for synthetic credit institution deployment."""
+        # Valid ISO 17442 LEIs (Synthetic reference fixtures with valid MOD 97-10 check digits):
+        # 984500SOVEREIGN00119 (Synthetic Sovereign Bank S.A. - Valid MOD 97)
+        # 315700SOVEREIGNX0050 (SovereignNexus s.r.o. - Valid MOD 97)
+        # 2138006E88N3E7G8Z282 (Subcontractor Cloud Enclave - Valid MOD 97)
+        entity_lei = "984500SOVEREIGN00119"
         provider_lei = "315700SOVEREIGNX0050"
         subcontractor_lei = "2138006E88N3E7G8Z282"
         contract_ref = "CTR-SMAOS-2026-PILOT-01"
@@ -68,7 +68,7 @@ class DORAXBRLCompiler:
 
         self.tables["RT.01.01"] = [{
             "EntityLEI": entity_lei,
-            "EntityName": "UniCredit S.p.A.",
+            "EntityName": "Synthetic Sovereign Bank S.A.",
             "Country": "IT",
             "Sector": "Credit Institution",
             "Currency": "EUR"

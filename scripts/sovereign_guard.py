@@ -43,6 +43,9 @@ BANNED_PATH_PATTERNS = [
     r".*CISO_.*",
     r".*CAS_RADA_.*",
     r".*LVIV_GB200_.*",
+    r".*PARADOX.*",
+    r".*DOSSIER.*",
+    r".*BRIEFING.*",
     r".*sow\.html$",
     r".*sow\.pdf$",
     r".*sow-diagnostic.*",
@@ -62,12 +65,15 @@ BANNED_CONTENT_PATTERNS = [
     
     # Commercial Pitch Materials & Pricing
     (r"(?i)\bstatement\s+of\s+work\b", "Commercial Statement of Work (SOW) text detected in public repo"),
-    (r"€\s*(?:750|1,?500|2,?500|3,?500|4,?500|5,?000|15,?000)\b", "Commercial client pricing fee (€) detected"),
+    (r"€\s*(?:750|1,?500|2,?500|3,?500|4,?500|5,?000|15,?000|25,?000)\b", "Commercial client pricing fee (€) detected"),
     (r"(?i)\bcommercial\s+engagement\b", "Commercial engagement pitch detected"),
+    (r"(?i)\bcommercial\s+positioning\b", "Commercial positioning battlecard detected"),
     (r"(?i)\bfixed\s+fee\s*:\s*€", "Commercial fixed-fee rate card detected"),
     (r"(?i)\bdiagnostic\s+audit\s+fee\b", "Commercial audit fee rate card detected"),
     (r"(?i)\bwholesale\s+sow\b", "Wholesale SOW commercial template detected"),
     (r"(?i)\bdata\s+feasibility\s+sprint\b", "Commercial feasibility sprint offer detected"),
+    (r"(?i)\b(Purview)\b", "Commercial competitor battlecard term detected"),
+    (r"(?i)\b(UniCredit|ČSOB|Komerční\s+banka|Česká\s+spořitelna)\b", "Real bank client name detected in public codebase"),
 
     # Hardware-Bound Key Enforcement: Prohibit direct file-based private key loading
     (r"load_pem_private_key", "Direct disk-based PEM private key loading detected — use HardwareKeyProvider"),
@@ -257,6 +263,10 @@ def main() -> int:
 
     for filepath in files_to_check:
         if is_ignored(filepath):
+            continue
+
+        # If file does not exist on disk (deleted / staged for removal), allow deletion!
+        if not Path(filepath).exists():
             continue
 
         # 1. Path check

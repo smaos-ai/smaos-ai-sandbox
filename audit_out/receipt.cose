@@ -11,7 +11,7 @@
     "kid": "did:smaos:key:aarm_001"
   },
   "payload_hash": "5f6ef2dcbb787400c338516e3e8c435cc8d89721e4713219d66ec5450871d3b8",
-  "signature_base64": "Kcx5TMwzAgK/eD4E+qHSO21AxD1yEkN5ChrfvfH8AJ+6Mv46GVktiT58e2VJqkHNXilKc/DFdcY2S5IwYLoJCQ==",
+  "signature_base64": "bAoOtnYxny1ToGdXRkDYY8YB0AzrCiU8K+s5M7iI7l6NIc9BA7zvPKF981PEilaZ8Zgi5CMnT5tYVfsNnZAPAA==",
   "payload": {
     "passport_id": "urn:uuid:passport-504_timeout-2026",
     "generated_at_utc": "2026-09-22T17:24:01Z",

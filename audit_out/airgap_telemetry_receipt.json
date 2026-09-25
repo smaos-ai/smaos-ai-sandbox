@@ -1,13 +1,16 @@
 {
   "schema": "https://smaos.org/schemas/v1/airgap-telemetry-receipt.json",
-  "session_id": "airgap-1790353383",
-  "start_time": "2026-09-25T16:23:03Z",
-  "verification_time": "2026-09-25T16:23:03Z",
+  "session_id": "airgap-1790354388",
+  "start_time": "2026-09-25T16:39:48Z",
+  "verification_time": "2026-09-25T16:39:51Z",
   "external_bytes_transmitted": 0,
-  "external_connections_blocked": 0,
+  "external_connections_blocked": 2,
   "loopback_connections_allowed": 0,
   "loopback_bytes_transmitted": 0,
-  "blocked_egress_attempts": [],
+  "blocked_egress_attempts": [
+    "198.51.100.1:443",
+    "8.8.8.8:53"
+  ],
   "disposition": "CONFIRMED_ZERO_EGRESS",
   "status": "AIRGAP_INTACT"
 }
