@@ -166,17 +166,11 @@ SMAOS v1.1.0 ships four core enterprise infrastructure pillars for high-assuranc
 ---
 
 
-## 💼 Commercial Engagement: €1,500 48-Hour Staging Diagnostic
+## 🏛️ Enterprise Support & Research Inquiries
 
-* **Tier 0 (€0 Open-Core)**: Run `docker run --network none` locally to test your agent harness against simulated HTTP 504 transport drops on your own metal.
-* **Tier 1 (€1,500 Fixed Fee)**: **48-Hour Staging Diagnostic Audit**. We evaluate 50–100 anonymized staging traces under NDA and deliver:
-  1. An Overclaim Rate scorecard based on **DEMM-Bench** metrics.
-  2. A DORA-oriented gap dossier (`dora_art17_gap_report.json`).
-  3. A visual Mermaid sequence trace (`audit_trace.mermaid`) mapping wire drops vs. SDK overclaims.
-  4. The drop-in Spring Boot Java remediation filter (`ProofOrStopFilter.java`).
-  5. A permanent, re-runnable local regression test suite.
-
-* **Inquiries & SOW**: Contact `andrejlo123@gmail.com` | **SovereignNexus s.r.o.**, Prague, Czech Republic.
+* **Open-Source Testing**: Run `docker run --network none` locally to evaluate your agent harness against simulated HTTP 504 transport drops on your own hardware with zero data egress.
+* **Architecture & Governance Inquiries**: For enterprise pilot integrations, regulatory sandbox participation, or technical inquiries regarding DORA Article 17 and EU AI Act Article 14 controls:
+  * **Contact**: `andrejlo123@gmail.com` | **SovereignNexus s.r.o.**, Prague, Czech Republic.
 
 ---
 *One command. Nine scenarios. Zero egress. The truth is on the wire.*

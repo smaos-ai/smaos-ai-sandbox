@@ -57,12 +57,12 @@ This document defines the absolute, verified, and shippable scope for the v0.1.0
 
 ---
 
-## 6. Commercial Engagement Tiers
+## 6. Deployment & Integration Modes
 
-* **Tier 0: Open-Source Local Container (€0):** Self-hosted Docker evaluation running on client loopback.
-* **Tier 1: 48-Hour Staging Diagnostic (€1,500 / ~38,000 CZK):** Ingestion of 250+ staging traces, Toxic Receipt Index (TRI %) calculation, and wire overclaim risk report.
-* **Tier 2: 5-Day Forensic Reconciliation (€2,500 / ~63,000 CZK):** Full wire fault-injection pass, DORA Article 17 gap report, and delivery of custom `ProofOrStopFilter.java` integrations.
-* **Tier 3: Continuous Production License (€4,500/month):** Air-gapped sidecar monitoring live payment wires and enforcing deterministic `UNKNOWN` circuit breakers.
+* **Mode 1: Open-Source Local Container:** Self-hosted Docker evaluation running on client loopback (`127.0.0.1`).
+* **Mode 2: Staging Diagnostic Integration:** Ingestion of staging traces, Toxic Receipt Index (TRI %) calculation, and wire overclaim risk report.
+* **Mode 3: Forensic Reconciliation:** Full wire fault-injection pass, DORA Article 17 gap report, and delivery of custom `ProofOrStopFilter.java` integrations.
+* **Mode 4: Continuous Enclave Monitoring:** Air-gapped sidecar monitoring live payment wires and enforcing deterministic `UNKNOWN` circuit breakers.
 
 ---
 

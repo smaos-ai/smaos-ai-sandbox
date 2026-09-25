@@ -197,7 +197,7 @@ The ICT Risk Committee is invited to take the following formal decisions:
 
 1. **Mandate Wire-Truth Verification for Autonomous Agents**: Require all internal engineering and external fintech suppliers deploying LLM-based autonomous agents to transition from prompt-based guardrails to deterministic, zero-egress wire verification.
 2. **Deploy the Drop-In Core Banking Patch (`ProofOrStopFilter.java`)**: Authorize enterprise deployment of the 15-line Spring Boot filter across core payment gateways to enforce fail-closed behavior on HTTP 504 timeouts.
-3. **Adopt the €1,500 48-Hour Staging Diagnostic Audit**: Authorize SovereignNexus to conduct an air-gapped staging assessment of 50–100 anonymized agent traces to benchmark the bank's current Overclaim Rate and emit an audit-ready DORA Art. 17 gap dossier.
+3. **Mandate Air-Gapped Staging Diagnostic Audits**: Authorize internal security teams or SovereignNexus to conduct air-gapped staging assessments of anonymized agent traces to benchmark the bank's current Overclaim Rate and emit an audit-ready DORA Art. 17 gap dossier.
 4. **Integrate Declarative Governance (`smaos.hcl`) into CI/CD Pipelines**: Incorporate the SMAOS compiler into standard release gating to ensure that no agent is deployed without machine-verifiable eBPF and SQLite WAL invariants.
 
 ---
