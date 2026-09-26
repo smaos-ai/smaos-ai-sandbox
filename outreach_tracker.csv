@@ -1,3 +1,6 @@
 Target Company,CISO Name,Engineering Lead,Email,Stage,Observed 504s,Projected Annual Exposure,Status,Date Added
 Twisto,Jane Doe,John Smith,jane@twisto.mock,Diagnostic Report Delivered,14,109440.00,Awaiting Pilot Call,2026-09-26
 Acme Corp,Bob Ross,Alice Keys,bob@acme.mock,Log Ingestion Complete,1,13035.00,Ready to Deliver,2026-09-26
+BFSI-TARGET-01,TBD,Lead Payments Engineer,payments@bfsi.mock,Cold Outreach,0,0,To Contact,2026-09-26
+ERP-TARGET-02,TBD,Lead Procurement Engineer,procurement@enterprise.mock,Cold Outreach,0,0,To Contact,2026-09-26
+OPS-TARGET-03,TBD,Head of HR Systems,hr@saas.mock,Cold Outreach,0,0,To Contact,2026-09-26
