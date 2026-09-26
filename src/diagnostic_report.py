@@ -135,3 +135,34 @@ if __name__ == "__main__":
     report = DiagnosticReportGenerator(events)
     report.export_report()
     print("Exported diagnostic_report.md")
+
+def generate_report(raw_log, normalized_log, report_out, customer, workflows=None):
+    import json
+    from pathlib import Path
+    
+    events = []
+    with open(normalized_log, 'r') as f:
+        for line in f:
+            if not line.strip(): continue
+            d = json.loads(line)
+            event = NormalizedEvent(
+                event_id=d.get("event_id"),
+                timestamp=d.get("timestamp"),
+                principal_id=d.get("principal_id"),
+                task_scope=d.get("task_scope"),
+                intent_payload=d.get("intent_payload"),
+                wire_status_code=d.get("wire_status_code"),
+                wire_error=d.get("wire_error"),
+                human_approval_present=d.get("human_approval_present"),
+                evidence_digest=d.get("evidence_digest")
+            )
+            events.append(event)
+            
+    generator = DiagnosticReportGenerator(events)
+    md = generator.generate_markdown()
+    
+    # Overwrite the top with customer name
+    md = md.replace("# SMAOS Execution Integrity Diagnostic", f"# {customer} - SMAOS Execution Integrity Diagnostic")
+    
+    with open(report_out, 'w') as f:
+        f.write(md)

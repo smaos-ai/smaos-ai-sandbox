@@ -52,3 +52,36 @@ class DiagnosticNormalizer:
             normalized_events.append(event)
             
         return normalized_events
+
+def normalize_stream(raw_log_path: str, normalized_log_path: str) -> int:
+    import json
+    count = 0
+    with open(raw_log_path, 'r') as infile, open(normalized_log_path, 'w') as outfile:
+        # Assuming JSON or JSONL format
+        try:
+            # Try to load as full JSON array
+            infile.seek(0)
+            data = json.load(infile)
+            if not isinstance(data, list):
+                data = [data]
+            events = DiagnosticNormalizer.normalize_logs(data)
+            for event in events:
+                # Convert the dataclass back to dict for the report generator to parse
+                event_dict = asdict(event)
+                # Map some keys to match what run_prospect expects
+                event_dict["disposition"] = "DISPATCHED_UNCONFIRMED" if event_dict["wire_status_code"] == 504 else "CONFIRMED"
+                outfile.write(json.dumps(event_dict) + '\n')
+                count += 1
+        except json.JSONDecodeError:
+            # Try JSONL
+            infile.seek(0)
+            for line in infile:
+                if not line.strip(): continue
+                data = json.loads(line)
+                events = DiagnosticNormalizer.normalize_logs([data])
+                for event in events:
+                    event_dict = asdict(event)
+                    event_dict["disposition"] = "DISPATCHED_UNCONFIRMED" if event_dict["wire_status_code"] == 504 else "CONFIRMED"
+                    outfile.write(json.dumps(event_dict) + '\n')
+                    count += 1
+    return count
