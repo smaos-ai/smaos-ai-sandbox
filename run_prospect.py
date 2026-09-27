@@ -1,4 +1,4 @@
-"""Automated Prospect Diagnostic Pipeline Driver with O(1) Accumulation."""
+"""Automated Prospect Diagnostic Pipeline Driver."""
 import argparse
 import json
 import hashlib
@@ -6,6 +6,13 @@ from pathlib import Path
 from src.diagnostic_normalizer import normalize_stream
 from src.diagnostic_report import generate_report
 from src.accumulator import StateAccumulator
+
+def get_file_hash(filepath: Path) -> str:
+    hasher = hashlib.sha256()
+    with open(filepath, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 def calculate_risk_and_accumulate(normalized_path: Path, atv: float) -> tuple[dict, str]:
     """Calculates balance-sheet exposure and generates the O(1) state proof."""
@@ -20,7 +27,6 @@ def calculate_risk_and_accumulate(normalized_path: Path, atv: float) -> tuple[di
             total += 1
             
             # O(1) Absorption
-            # We canonicalize the JSON row to ensure deterministic hashing
             event_digest = hashlib.sha256(json.dumps(row, sort_keys=True).encode()).digest()
             accumulator.absorb_event(event_digest)
             
@@ -52,20 +58,26 @@ def run_pipeline(raw_log: Path, customer: str, atv: float):
     print(f"[*] Ingesting raw logs: {raw_log}")
     count = normalize_stream(str(raw_log), str(normalized_log))
     print(f"[+] Normalized {count} events -> {normalized_log}")
+    
+    raw_hash = get_file_hash(raw_log)
+    normalized_hash = get_file_hash(normalized_log)
 
     # Risk Calculation + Accumulator Absorption
     risk, session_proof = calculate_risk_and_accumulate(normalized_log, atv)
-    print(f"[!] Risk Calculated: {risk['unconfirmed_events']} ambiguous drops. Annual Exposure: €{risk['annual_exposure']:,.2f}")
+    print(f"[!] Risk Calculated: {risk['unconfirmed_events']} ambiguous drops.")
 
-    print("[*] Generating CISO Deliverable Report...")
+    print("[*] Generating Evidence-Scoped Deliverable Report...")
     generate_report(raw_log, normalized_log, report_out, customer, workflows=None)
     
-    # Append the O(1) proof to the CISO Markdown report
+    # Append the Artifact Integrity Identifiers
     with open(report_out, "a") as f:
-        f.write(f"\n## Cryptographic Session Proof (O(1) Verification)\n")
-        f.write(f"`{session_proof}`\n")
+        f.write(f"\n## Artifact Integrity Identifiers\n")
+        f.write(f"*These are unkeyed SHA-256 digests used strictly for local file integrity verification. They are not cryptographic signatures or regulatory proofs.*\n\n")
+        f.write(f"- **Raw Ingested File**: `{raw_hash}`\n")
+        f.write(f"- **Normalized Evidence File**: `{normalized_hash}`\n")
+        f.write(f"- **Accumulated Event Identifier**: `{session_proof}`\n")
 
-    print(f"[SUCCESS] O(1) Session Proof: {session_proof}")
+    print(f"[SUCCESS] Accumulated Event Identifier: {session_proof}")
     print(f"[SUCCESS] Client Report Generated: {report_out}")
 
 if __name__ == "__main__":
