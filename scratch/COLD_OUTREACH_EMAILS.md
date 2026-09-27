@@ -20,13 +20,13 @@ Prague
 
 # Outreach Variant 2: Platform / Engineering Version
 
-**Subject:** What does your agent workflow record after a post-write timeout?
+**Subject:** What does your workflow record after a post-write timeout?
 
 Hi [First name],
 
-A narrow engineering question: if an agent initiates a consequential API call, the request may have been transmitted, and the caller receives a timeout or disconnected response—what state does your workflow record?
+A narrow engineering question: if an automated workflow initiates a consequential API call, the request may have been transmitted, and the caller receives a timeout or disconnected response—what state does your workflow record?
 
-Specifically, can it distinguish “not dispatched,” “dispatched but unconfirmed,” and “target-confirmed” without relying on the agent’s own success message?
+Specifically, can it distinguish “not dispatched,” “dispatched but unconfirmed,” and “target-confirmed” without relying on the workflow’s own success message?
 
 I run a small observe-only review against anonymized or redacted trace exports. It does not require credentials, runtime changes, a proxy, or production access. The output is an evidence-scoped report on approval linkage, retry exposure, authority freshness, and lifecycle evidence.
 
