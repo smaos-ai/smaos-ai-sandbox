@@ -1,0 +1,29 @@
+{
+  "diagnostic_id": "diag-1a2b3c",
+  "timestamp": "2026-09-27T01:50:01.276330Z",
+  "provenance": "synthetic_test",
+  "metrics": {
+    "approval_binding": "FAIL",
+    "retry_exposure": "CRITICAL",
+    "authority_freshness": "PASS",
+    "evidence_continuity": "PARTIAL"
+  },
+  "event_ladder": [
+    {
+      "step": "authorization",
+      "state": "approved",
+      "action": "execute_wire_transfer"
+    },
+    {
+      "step": "dispatch",
+      "state": "dispatched_unconfirmed",
+      "network_response": "504 Gateway Timeout"
+    },
+    {
+      "step": "reconciliation",
+      "state": "required",
+      "observation": "Agent SDK initiated automatic retry without idempotency check."
+    }
+  ],
+  "session_proof": "smos_acc:1:6a7855822ba7fdd591394ba5bc301b56462f4b0a0299fe99e910459536f2ec25"
+}
