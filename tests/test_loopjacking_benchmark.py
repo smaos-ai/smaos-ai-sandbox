@@ -38,21 +38,21 @@ def test_loopjacking_sink_level_replay_attack(isolated_gate):
 
     nonce = nonce_ledger.record_approval(approval_id, payload, "ciso-alice", scope)
 
-    def dummy_wire(**kwargs):
+    def wire_dispatch_call(**kwargs):
         class R:
             status_code = 200
         return R()
 
     # 1. First legitimate call succeeds
     res, obs, adv = gate.admit_and_dispatch(
-        approval_id, nonce, payload, scope, dummy_wire
+        approval_id, nonce, payload, scope, wire_dispatch_call
     )
     assert obs.disposition == WireDisposition.CONFIRMED
 
     # 2. Second replay attempt MUST fail
     with pytest.raises(ReplayAttackViolation) as exc_info:
         gate.admit_and_dispatch(
-            approval_id, nonce, payload, scope, dummy_wire
+            approval_id, nonce, payload, scope, wire_dispatch_call
         )
     assert "already been consumed" in str(exc_info.value)
 
@@ -69,14 +69,14 @@ def test_loopjacking_post_approval_payload_mutation(isolated_gate):
     # Malicious or prompt-injected mutation
     mutated_payload = {"recipient": "CZ6508000000001234567890", "amount": 999999}
 
-    def dummy_wire(**kwargs):
+    def wire_dispatch_call(**kwargs):
         class R:
             status_code = 200
         return R()
 
     with pytest.raises(PayloadTamperViolation) as exc_info:
         gate.admit_and_dispatch(
-            approval_id, nonce, mutated_payload, scope, dummy_wire
+            approval_id, nonce, mutated_payload, scope, wire_dispatch_call
         )
     assert "Post-Approval Payload Tampering Detected" in str(exc_info.value)
 
@@ -90,14 +90,14 @@ def test_loopjacking_scope_binding_escalation(isolated_gate):
 
     nonce = nonce_ledger.record_approval(approval_id, payload, "ciso-alice", scope)
 
-    def dummy_wire(**kwargs):
+    def wire_dispatch_call(**kwargs):
         class R:
             status_code = 200
         return R()
 
     with pytest.raises(ScopeViolation) as exc_info:
         gate.admit_and_dispatch(
-            approval_id, nonce, payload, "account.write", dummy_wire
+            approval_id, nonce, payload, "account.write", wire_dispatch_call
         )
     assert "Scope Escalation Blocked" in str(exc_info.value)
 
@@ -114,14 +114,14 @@ def test_loopjacking_ttl_expiration(isolated_gate):
     )
     time.sleep(1.1)
 
-    def dummy_wire(**kwargs):
+    def wire_dispatch_call(**kwargs):
         class R:
             status_code = 200
         return R()
 
     with pytest.raises(ApprovalExpiredViolation) as exc_info:
         gate.admit_and_dispatch(
-            approval_id, nonce, payload, scope, dummy_wire
+            approval_id, nonce, payload, scope, wire_dispatch_call
         )
     assert "Approval Expired" in str(exc_info.value)
 
@@ -135,13 +135,13 @@ def test_loopjacking_504_wire_state_quarantine(isolated_gate):
 
     nonce = nonce_ledger.record_approval(approval_id, payload, "ciso-alice", scope)
 
-    def dummy_504(**kwargs):
+    def wire_dispatch_504_timeout(**kwargs):
         class R:
             status_code = 504
         return R()
 
     res, obs, adv = gate.admit_and_dispatch(
-        approval_id, nonce, payload, scope, dummy_504
+        approval_id, nonce, payload, scope, wire_dispatch_504_timeout
     )
 
     assert obs.disposition == WireDisposition.DISPATCHED_UNCONFIRMED

@@ -47,9 +47,20 @@ def scan_environment():
         score += 10
         findings.append("✅ Claude Desktop configuration detected.")
 
-    # Check 4: Un-sandboxed tool check (Dummy check for demonstration)
-    score += 10
-    findings.append("✅ Local execution boundaries respected.")
+    # Check 4: Runtime Sandboxing & Execution Boundary Check
+    sandbox_indicators = []
+    if Path("/.dockerenv").exists() or Path("/run/.containerenv").exists():
+        sandbox_indicators.append("Container virtualization active")
+    if hasattr(os, "getuid") and os.getuid() != 0:
+        sandbox_indicators.append(f"Least-privilege non-root UID ({os.getuid()})")
+    if any(Path(p).exists() for p in ["Dockerfile", "docker-compose.yml", ".devcontainer/devcontainer.json"]):
+        sandbox_indicators.append("Sandbox manifest detected")
+
+    if sandbox_indicators:
+        score += 10
+        findings.append(f"✅ Local execution boundaries verified ({', '.join(sandbox_indicators)}).")
+    else:
+        findings.append("⚠️ No local container isolation or least-privilege boundary detected.")
 
     gii = (score / max_score) * 100
 
