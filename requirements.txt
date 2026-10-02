@@ -2,3 +2,4 @@
 # Core engine requires Standard Library; SCITT & PQC signing utilizes cryptography
 cryptography>=41.0.0
 
+requests
