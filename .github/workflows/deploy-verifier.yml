@@ -34,10 +34,8 @@ jobs:
           cp dist/verifier.html public/index.html
           cp dist/verifier.html public/verifier.html
 
-      - name: ⚙️ Setup Pages
+      - name: "⚙️ Setup Pages"
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: 📦 Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
